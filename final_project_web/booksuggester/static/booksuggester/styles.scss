@@ -1,0 +1,168 @@
+// Generals:
+
+// Copyright
+#copyright {
+    margin-right: 3px;
+}
+
+// Font:
+// Poppins as Font?
+$standard-font: 'Segoe UI', Verdana, sans-serif;
+
+// Colors:
+$font-color-1: #FFFFFF;
+$font-color-2: #E5E7EB;
+$font-color-3: #A6CBE2;
+// Used interchangeably  if necessary
+$back-color-1: #CB3C61;
+$back-color-2: #4A3163;
+$back-color-3: #1F2937;
+$back-color-4: #494848;
+$back-color-5: #091E22;
+$back-color-6: #F3E7D3;
+$back-color-7: #6F2DA8;
+
+// Flex:
+// align-items (vertically) - reverse when flex-direction is a column
+// justify-content (horizontally) - reverse when flex-direction is a column
+// flex-direction - defines the direction the items are placed in
+// order - we can decide the oder of the items ourselves, by default, each has a value of '0'
+// align-self - can be applied to individual items, accepts the same values as 'align-items' and its value for the specific item
+// flex-wrap - spread items around: 
+//                                  a) nowrap: every items is fit to a single line
+//                                  b) wrap: items wrap around to additional lines
+//                                  c) wrap-reverse: items wrap around to additional lines in reverse 
+// flex-direction and flex-wrap => flex-flow (as they are used so often together). Accepts the values of both properties separated by a space:
+// eg: flex-flow: row wrap = set rows and wrap them
+// align-content: determines the spaceing between lines (when there's only one line, it has no effect).
+
+body {
+    background-color: $font-color-2;
+    margin: 0px;
+}
+
+footer, header, #logo_container, #quotes_container {
+    animation: transitionIn 1.0s ease-in-out;
+}
+
+header, footer {
+    font-size: 12px;
+    font-family: $standard-font;
+    position: fixed;
+    width: 100%;
+    height: 34px;
+    background-color: $back-color-1;
+    color: $font-color-1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    top: 0;
+}
+
+footer {
+    bottom: 0;
+    background-color: $back-color-3;
+}
+
+// Quotes
+#quotes_container {
+    position: absolute;
+    width: 100%;
+    top: 549.5px;
+    background-color: $back-color-6;
+    color: $back-color-3;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 1.5s ease-in-out;
+    font-family: $standard-font;
+}
+
+#quotes_container.colorTransition {
+    background-color: $back-color-3;
+}
+
+
+// Logo
+#logo_container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: $back-color-6;
+    height: 200px; // I may display this whole page in 3 * 100px 'containers'
+    position: relative;
+    top: 33.2px;
+    transition: background-color 1.5s ease-in-out;
+}
+
+#logo_container.colorTransition {
+    background-color: $back-color-1;
+}
+
+#logo {
+    position: relative;
+    bottom: 155px;
+    margin: none;
+}
+
+#test {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;    
+    top: 250px;
+    color: $back-color-3;
+    font-size: 14px;
+}
+
+// Make 'question' reapper with animation
+#test2:not(:active) {
+    animation: QuestionReappear 2.7s ease-in-out;
+}
+
+// Animations:
+// Dissapear/Reappear effect
+@keyframes QuestionReappear {
+    0% {
+        transform: translateY(0%);
+        opacity: 0%;
+    }
+
+    50% {
+        transform: translateY(-1070%);
+        opacity: 0%;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 100%;
+    }
+}
+
+// Reload page effect
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+// @keyframes qContainer-color-change {
+//     0% {
+//         background-color: $back-color-6;
+//         transition: background-color 1.2s ease-in-out
+//     }
+
+//     100% {
+//         background-color: $back-color-3;
+//     }
+// }
