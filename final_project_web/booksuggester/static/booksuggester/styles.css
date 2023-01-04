@@ -12,6 +12,12 @@ html {
 footer, header, #logo_container, #quotes_container {
   animation: transitionIn 1.0s ease-in-out; }
 
+#question_container {
+  animation: QuestionReappear 2.7s ease-in-out; }
+
+#answer {
+  animation: AnswerReappear 2.7s ease-in-out; }
+
 header, footer {
   font-size: 12px;
   font-family: "Segoe UI", Verdana, sans-serif;
@@ -65,14 +71,35 @@ footer {
   bottom: 155px;
   margin: none; }
 
+#answer_container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  top: 140px; }
+
+#answer {
+  background-color: #F3E7D3;
+  color: #1F2937;
+  font-size: 14px;
+  font-family: "Segoe UI", Verdana, sans-serif;
+  font-weight: bold;
+  height: 45px;
+  width: 130px;
+  border: solid #1F2937 2px;
+  border-radius: 12px;
+  border-width: 4px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 #question_container {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 100px;
-  animation: transitionIn 1.0s ease-in-out;
-  transform: animation; }
+  top: 100px; }
 
 #question {
   background-color: #F3E7D3;
@@ -100,6 +127,16 @@ footer {
   100% {
     transform: translateY(0%);
     opacity: 100%; } }
+@keyframes AnswerReappear {
+  0% {
+    transform: translateY(0%);
+    opacity: 0%; }
+  50% {
+    transform: translateY(105%);
+    opacity: 0%; }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%; } }
 @keyframes transitionIn {
   from {
     opacity: 0;
@@ -112,6 +149,11 @@ footer {
     transform: translateX(0%); }
   to {
     transform: translateX(500%); } }
+@keyframes runLeft {
+  from {
+    transform: translateX(0%); }
+  to {
+    transform: translateX(-500%); } }
 @keyframes Question-colorize {
   from {
     background-color: #F3E7D3;
@@ -120,5 +162,12 @@ footer {
     background-color: #CB3C61;
     color: #CB3C61;
     border-color: #091E22; } }
+@keyframes Answer-colorize {
+  from {
+    background-color: #F3E7D3;
+    color: #1F2937; }
+  to {
+    background-color: #1F2937;
+    border-color: #CB3C61; } }
 
 /*# sourceMappingURL=styles.css.map */

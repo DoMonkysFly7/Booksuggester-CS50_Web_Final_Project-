@@ -33,10 +33,19 @@ html {
     overflow-x: hidden;
 }
 
-// Footer and header
-footer, header, #logo_container, #quotes_container {
+footer, header, #logo_container, #quotes_container{
     animation: transitionIn 1.0s ease-in-out;
 }
+
+#question_container {
+    animation: QuestionReappear 2.7s ease-in-out;
+}
+
+#answer {
+    animation: AnswerReappear 2.7s ease-in-out;
+}
+
+// Footer and header
 
 header, footer {
     font-size: 12px;
@@ -101,21 +110,39 @@ footer {
     margin: none;
 }
 
-// actual App
+#answer_container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    top: 140px;
+}
+
+#answer {
+    background-color: $back-color-6;
+    color: $back-color-3;
+    font-size: 14px;
+    font-family: $standard-font;
+    font-weight: bold;
+    height: 45px;
+    width: 130px;
+    border: solid $back-color-3 2px;
+    border-radius: 12px;
+    border-width: 4px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Mult cod care se repeta intre questions/answers, optimizeaza
 #question_container {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;    
     top: 100px;
-    animation: transitionIn 1.0s ease-in-out;
-    transform: animation;
 }
-
-// Make 'question' reapper with animation
-// #question:not(:active) {
-//     animation: QuestionReappear 2.7s ease-in-out;
-// }    
 
 #question {
     background-color: $back-color-6;
@@ -134,14 +161,8 @@ footer {
     align-items: center;
 }
 
-// #question.Transition {
-//     background-color: $back-color-1;
-//     color: $back-color-1;
-// }
-
-
 // Animations:
-// Dissapear/Reappear effect
+// Dissapear/Reappear effects
 @keyframes QuestionReappear {
     0% {
         transform: translateY(0%);
@@ -150,6 +171,23 @@ footer {
 
     50% {
         transform: translateY(-105%);
+        opacity: 0%;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 100%;
+    }
+}
+
+@keyframes AnswerReappear {
+    0% {
+        transform: translateY(0%);
+        opacity: 0%;
+    }
+
+    50% {
+        transform: translateY(105%);
         opacity: 0%;
     }
 
@@ -172,7 +210,7 @@ footer {
     }
 }
 
-// 'Run-right' effect
+// 'Run' effects
 @keyframes runRight {
     
     from {
@@ -184,6 +222,17 @@ footer {
     }
 }
 
+@keyframes runLeft {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-500%);
+    }
+}
+
+// 'Colorize' effects
 @keyframes Question-colorize {
     from {
         background-color: $back-color-6;
@@ -197,6 +246,17 @@ footer {
     }
 }
 
+@keyframes Answer-colorize {
+    from {
+        background-color: $back-color-6;
+        color: $back-color-3;
+    }
+
+    to {
+        background-color: $back-color-3;
+        border-color: $back-color-1;
+    }
+}
 
 
 // Flex:
