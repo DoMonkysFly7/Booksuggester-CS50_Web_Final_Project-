@@ -36,7 +36,7 @@ class App extends React.Component {
     } 
 
     // Make this work properly (with animations)
-    questionTime = async () => {
+    questionTime = () => {
         const logo_container = document.querySelector('#logo_container');
         const logo = document.querySelector('#logo');
         const quotesContainer = document.querySelector('#quotes_container');
@@ -48,12 +48,14 @@ class App extends React.Component {
         
         logo.style.animation = 'transitionIn 1.5s ease-in-out reverse forwards';
 
-        this.qReset();
+        // Delay this until the above 'question.style.animation' is done
+        window.setTimeout(this.qReset, 3750);
     }
 
-    qReset = () => {
-        const question = document.querySelector('#question');
-        question.style.animation = 'none';
+    qReset = async () => {
+
+        // alert('success');
+        document.querySelector('#question').style.animation = 'none';
     }
 
     render() {

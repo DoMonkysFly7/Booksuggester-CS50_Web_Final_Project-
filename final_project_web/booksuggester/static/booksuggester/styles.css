@@ -5,6 +5,10 @@ body {
   background-color: #E5E7EB;
   margin: 0px; }
 
+html {
+  max-width: 100%;
+  overflow-x: hidden; }
+
 footer, header, #logo_container, #quotes_container {
   animation: transitionIn 1.0s ease-in-out; }
 

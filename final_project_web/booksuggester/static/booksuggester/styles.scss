@@ -27,6 +27,12 @@ body {
     margin: 0px;
 }
 
+// Disable horizontal sroll (interfers with 'runRight, runLeft animations'
+html {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 // Footer and header
 footer, header, #logo_container, #quotes_container {
     animation: transitionIn 1.0s ease-in-out;
@@ -190,6 +196,8 @@ footer {
         border-color: $back-color-5;
     }
 }
+
+
 
 // Flex:
 // align-items (vertically) - reverse when flex-direction is a column
