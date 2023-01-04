@@ -22,25 +22,12 @@ $back-color-5: #091E22;
 $back-color-6: #F3E7D3;
 $back-color-7: #6F2DA8;
 
-// Flex:
-// align-items (vertically) - reverse when flex-direction is a column
-// justify-content (horizontally) - reverse when flex-direction is a column
-// flex-direction - defines the direction the items are placed in
-// order - we can decide the oder of the items ourselves, by default, each has a value of '0'
-// align-self - can be applied to individual items, accepts the same values as 'align-items' and its value for the specific item
-// flex-wrap - spread items around: 
-//                                  a) nowrap: every items is fit to a single line
-//                                  b) wrap: items wrap around to additional lines
-//                                  c) wrap-reverse: items wrap around to additional lines in reverse 
-// flex-direction and flex-wrap => flex-flow (as they are used so often together). Accepts the values of both properties separated by a space:
-// eg: flex-flow: row wrap = set rows and wrap them
-// align-content: determines the spaceing between lines (when there's only one line, it has no effect).
-
 body {
     background-color: $font-color-2;
     margin: 0px;
 }
 
+// Footer and header
 footer, header, #logo_container, #quotes_container {
     animation: transitionIn 1.0s ease-in-out;
 }
@@ -86,14 +73,13 @@ footer {
     background-color: $back-color-3;
 }
 
-
 // Logo
 #logo_container {
     display: flex;
     justify-content: center;
     align-content: center;
     background-color: $back-color-6;
-    height: 200px; // I may display this whole page in 3 * 100px 'containers'
+    height: 200px; 
     position: relative;
     top: 33.2px;
     transition: background-color 1.5s ease-in-out;
@@ -109,20 +95,44 @@ footer {
     margin: none;
 }
 
-#test {
+// actual App
+#question_container {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;    
-    top: 250px;
-    color: $back-color-3;
-    font-size: 14px;
+    top: 100px;
+    animation: transitionIn 1.0s ease-in-out;
+    transform: animation;
 }
 
 // Make 'question' reapper with animation
-#test2:not(:active) {
-    animation: QuestionReappear 2.7s ease-in-out;
+// #question:not(:active) {
+//     animation: QuestionReappear 2.7s ease-in-out;
+// }    
+
+#question {
+    background-color: $back-color-6;
+    color: $back-color-3;
+    font-size: 14px;
+    font-family: $standard-font;
+    font-weight: bold;
+    height: 60px;
+    width: 170px;
+    border: solid $back-color-1 2px;
+    border-radius: 12px;
+    border-width: 4px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+// #question.Transition {
+//     background-color: $back-color-1;
+//     color: $back-color-1;
+// }
+
 
 // Animations:
 // Dissapear/Reappear effect
@@ -133,7 +143,7 @@ footer {
     }
 
     50% {
-        transform: translateY(-1070%);
+        transform: translateY(-105%);
         opacity: 0%;
     }
 
@@ -156,13 +166,41 @@ footer {
     }
 }
 
-// @keyframes qContainer-color-change {
-//     0% {
-//         background-color: $back-color-6;
-//         transition: background-color 1.2s ease-in-out
-//     }
+// 'Run-right' effect
+@keyframes runRight {
+    
+    from {
+        transform: translateX(0%);
+    }
 
-//     100% {
-//         background-color: $back-color-3;
-//     }
-// }
+    to {
+        transform: translateX(500%);
+    }
+}
+
+@keyframes Question-colorize {
+    from {
+        background-color: $back-color-6;
+        color: $back-color-3;
+    }
+
+    to {
+        background-color: $back-color-1;
+        color: $back-color-1;
+        border-color: $back-color-5;
+    }
+}
+
+// Flex:
+// align-items (vertically) - reverse when flex-direction is a column
+// justify-content (horizontally) - reverse when flex-direction is a column
+// flex-direction - defines the direction the items are placed in
+// order - we can decide the oder of the items ourselves, by default, each has a value of '0'
+// align-self - can be applied to individual items, accepts the same values as 'align-items' and its value for the specific item
+// flex-wrap - spread items around: 
+//                                  a) nowrap: every items is fit to a single line
+//                                  b) wrap: items wrap around to additional lines
+//                                  c) wrap-reverse: items wrap around to additional lines in reverse 
+// flex-direction and flex-wrap => flex-flow (as they are used so often together). Accepts the values of both properties separated by a space:
+// eg: flex-flow: row wrap = set rows and wrap them
+// align-content: determines the spaceing between lines (when there's only one line, it has no effect).

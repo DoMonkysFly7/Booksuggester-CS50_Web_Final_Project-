@@ -29,30 +29,43 @@ class App extends React.Component {
         };
 
     changeQuestion = () => {
+
         this.setState(state => ({
             question_number: state.question_number + 1,
         }), this.questionTime);
     } 
 
     // Make this work properly (with animations)
-    questionTime = () => {
+    questionTime = async () => {
         const logo_container = document.querySelector('#logo_container');
         const logo = document.querySelector('#logo');
         const quotesContainer = document.querySelector('#quotes_container');
+        const question = document.querySelector('#question');
 
         logo_container.className = 'colorTransition';
         quotesContainer.className = 'colorTransition';
+        question.style.animation = 'runRight 1.1s ease-in-out, QuestionReappear 2.7s 1.1s ease-in-out, Question-colorize 3.8s reverse';
+        
         logo.style.animation = 'transitionIn 1.5s ease-in-out reverse forwards';
+
+        this.qReset();
     }
 
-
-
+    qReset = () => {
+        const question = document.querySelector('#question');
+        question.style.animation = 'none';
+    }
 
     render() {
         return(
-                <div id="test">
-                    <button onClick={this.changeQuestion} autofocus id="test2"> {this.state.questions[this.state.question_number]} </button>
+            <div id="app_container">
+                <div id="question_container">
+                    <div id="question"> {this.state.questions[this.state.question_number]} </div>
                 </div>
+                <div id="answer_container">
+                    <div id="answer" onClick={this.changeQuestion}> Possible answer </div>
+                </div>
+            </div>
         )};
 }
 
