@@ -4,7 +4,9 @@
 
 body {
   background-color: #E5E7EB;
-  margin: 0px; }
+  margin: 0px;
+  zoom: 125%;
+  max-zoom: 125%; }
 
 html {
   max-width: 100%;
@@ -39,9 +41,9 @@ footer {
   background-color: #1F2937; }
 
 #quotes_container {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  top: 549.5px;
+  bottom: 34px;
   background-color: #F3E7D3;
   color: #1F2937;
   height: 200px;
@@ -163,5 +165,23 @@ footer {
     background-color: #6F2DA8;
     border-color: #6F2DA8;
     color: #6F2DA8; } }
+@media only screen and (max-device-height: 1000px) {
+  #app {
+    position: relative;
+    bottom: 50px; }
+
+  #quotes_container {
+    bottom: -80px; }
+
+  #question {
+    position: relative;
+    top: 45px; }
+
+  #quotes {
+    position: relative;
+    bottom: 50px; }
+
+  #answer_container {
+    top: 165px; } }
 
 /*# sourceMappingURL=styles.css.map */
