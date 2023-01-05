@@ -1,19 +1,15 @@
 // Generals:
 
-// Copyright
-#copyright {
-    margin-right: 3px;
-}
-
 // Font:
-// Poppins as Font?
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 $standard-font: 'Segoe UI', Verdana, sans-serif;
+$poppins-font: 'Poppins';
 
-// Colors:
+// Colors (Used interchangeably  if necessary):
 $font-color-1: #FFFFFF;
 $font-color-2: #E5E7EB;
 $font-color-3: #A6CBE2;
-// Used interchangeably  if necessary
 $back-color-1: #CB3C61;
 $back-color-2: #4A3163;
 $back-color-3: #1F2937;
@@ -21,6 +17,11 @@ $back-color-4: #494848;
 $back-color-5: #091E22;
 $back-color-6: #F3E7D3;
 $back-color-7: #6F2DA8;
+
+// Copyright
+#copyright {
+    margin-right: 3px;
+}
 
 body {
     background-color: $font-color-2;
@@ -33,6 +34,7 @@ html {
     overflow-x: hidden;
 }
 
+// Footer and header
 footer, header, #logo_container, #quotes_container{
     animation: transitionIn 1.0s ease-in-out;
 }
@@ -46,7 +48,6 @@ footer, header, #logo_container, #quotes_container{
 }
 
 // Footer and header
-
 header, footer {
     font-size: 12px;
     font-family: $standard-font;
@@ -81,7 +82,7 @@ footer {
     justify-content: center;
     align-items: center;
     transition: background-color 1.5s ease-in-out;
-    font-family: $standard-font;
+    font-family: $poppins-font;
 }
 
 #quotes_container.colorTransition {
@@ -110,55 +111,50 @@ footer {
     margin: none;
 }
 
+// Questions and answers
+
+#answer_container, #question_container {
+    display: flex;
+    align-items: center;
+    position: relative;    
+}
+
 #answer_container {
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
-    position: relative;
     top: 140px;
 }
 
-#answer {
-    background-color: $back-color-6;
-    color: $back-color-3;
-    font-size: 14px;
-    font-family: $standard-font;
-    font-weight: bold;
-    height: 45px;
-    width: 130px;
-    border: solid $back-color-3 2px;
-    border-radius: 12px;
-    border-width: 4px;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-// Mult cod care se repeta intre questions/answers, optimizeaza
 #question_container {
-    display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;    
     top: 100px;
 }
 
-#question {
-    background-color: $back-color-6;
+#answer, #question {
     color: $back-color-3;
+    background-color: $back-color-6;
     font-size: 14px;
     font-family: $standard-font;
     font-weight: bold;
-    height: 60px;
-    width: 170px;
-    border: solid $back-color-1 2px;
     border-radius: 12px;
-    border-width: 4px;
     padding: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#answer {
+    height: 45px;
+    width: 130px;
+    border: solid $back-color-3 2px;
+    border-width: 4px;
+}
+
+#question {
+    height: 55px;
+    width: 190px;
+    border: solid $back-color-1 2px;
+    border-width: 4px;
 }
 
 // Animations:
@@ -168,12 +164,10 @@ footer {
         transform: translateY(0%);
         opacity: 0%;
     }
-
     50% {
-        transform: translateY(-105%);
+        transform: translateY(-88%);
         opacity: 0%;
     }
-
     100% {
         transform: translateY(0%);
         opacity: 100%;
@@ -185,12 +179,10 @@ footer {
         transform: translateY(0%);
         opacity: 0%;
     }
-
     50% {
         transform: translateY(105%);
         opacity: 0%;
     }
-
     100% {
         transform: translateY(0%);
         opacity: 100%;
@@ -203,7 +195,6 @@ footer {
         opacity: 0;
         transform: rotateX(10deg);
     }
-
     to {
         opacity: 1;
         transform: rotateX(0);
@@ -212,13 +203,11 @@ footer {
 
 // 'Run' effects
 @keyframes runRight {
-    
     from {
         transform: translateX(0%);
     }
-
     to {
-        transform: translateX(500%);
+        transform: translateX(600%);
     }
 }
 
@@ -226,9 +215,8 @@ footer {
     from {
         transform: translateX(0%);
     }
-
     to {
-        transform: translateX(-500%);
+        transform: translateX(-400%);
     }
 }
 
@@ -238,11 +226,14 @@ footer {
         background-color: $back-color-6;
         color: $back-color-3;
     }
-
     to {
-        background-color: $back-color-1;
-        color: $back-color-1;
-        border-color: $back-color-5;
+        background-color: $back-color-7;
+        color: $back-color-7;
+        border-color: $back-color-7;
+        //Maybe
+        // background-color: $back-color-6;
+        // color: $back-color-1;
+        // border-color: $back-color-3;
     }
 }
 
@@ -251,13 +242,15 @@ footer {
         background-color: $back-color-6;
         color: $back-color-3;
     }
-
     to {
-        background-color: $back-color-3;
-        border-color: $back-color-1;
+        background-color: $back-color-7;
+        border-color: $back-color-7;
+        color: $back-color-7;
+        //Maybe
+        // background-color: $back-color-3;
+        // border-color: $back-color-1;
     }
 }
-
 
 // Flex:
 // align-items (vertically) - reverse when flex-direction is a column

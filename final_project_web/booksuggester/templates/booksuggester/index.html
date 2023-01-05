@@ -2,19 +2,15 @@
 {% load static %}
 
 {% block body %}
-
     <div id="logo_container">
         <img id="logo" width="500" height="500" src="{% static 'booksuggester/default.png' %}"></img>
     </div>
     
-    <div id="app">
-    </div>
+    <div id="app"></div>
 
-    <div id="quotes_container">
-    </div>
-
+    <div id="quotes_container"></div>
 {% endblock %}
 
 {% block script %}
-    <script type="text/babel" src="{% static 'booksuggester/Test3.js' %}"></script>
+    <script type="text/babel" src="{% static 'booksuggester/App.js' %}"></script>
 {% endblock %}
