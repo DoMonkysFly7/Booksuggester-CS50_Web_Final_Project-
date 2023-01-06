@@ -43,16 +43,58 @@ class App extends React.Component {
     constructor(props) {
         super(props);
             this.state = {
-                questions: ["Do you like dogs?", "Do you like cats?", "Do you like leopards?", "Do you like bats?"],
+                // Emotional or thinking type?
+                start_question: "",
                 question_number: 0,
+                q1_response: "", //Trial
+                books: [],
+                emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "This world sucks", "Are you artsy?", "Really young ppl write well?",
+                ],
+                thinking_q_set: []
             }
         };
 
-    changeQuestion = () => {
+    changeQuestion = (event) => {
+
         this.setState(state => ({
             question_number: state.question_number + 1,
         }), this.questionTime);
+
+        // Runs only on the first question to register which lists of answers/questions we go forwards with
+        if(event.target.innerHTML === "Emotional") {
+            // this.state.q1_response = "Emotional";
+            this.setState(state => ({
+                q1_response: "Emotional"
+            }));
+        } else {
+            this.state.q1_response === "Thinking";
+            this.setState(state => ({
+                q1_response: "Thinking"
+            }))
+        }
+
+        this.registerResponse(event.target.innerHTML, this.state.question_number, this.state.q1_response);
     } 
+
+    registerResponse = (answer, question_number, q1_response) => {
+        
+        q1_response === this.state.q1_response;
+        if (q1_response === "Emotional") {
+            console.log('You are emotional!');
+
+        } else {
+            console.log('You like to think!');
+        }
+
+        console.log(`${answer} : ${question_number}`);
+        this.ApiOutput_Emotional();
+    }
+
+    ApiOutput_Emotional = () => {
+        // For subjects that have multiple subcategories (history and biography, for example). API searches through the /search 
+        // method may be required, instead of /subjects method
+        console.log('Response registered');
+    }
 
     questionTime = () => {
         const logo_container = document.querySelector('#logo_container');
@@ -83,19 +125,45 @@ class App extends React.Component {
         document.querySelector('#answer_container').style.animation = 'none';
     }
 
-    render() {
-        return(
-            <div id="app_container">
-                <div id="question_container">
-                    <div id="question"> {this.state.questions[this.state.question_number]} </div>
+    render()
+    {
+
+        if(this.state.q1_response === "Emotional"){
+            return(
+                <div id="app_container">
+                    <div id="question_container">
+                        <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
+                    </div>
+                    <div id="answer_container">
+                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
+                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                    </div>
                 </div>
-                <div id="answer_container">
-                    <div id="answer" onClick={this.changeQuestion}> Possible answer 1 </div>
-                    <div id="answer" onClick={this.changeQuestion}> Possible answer 2 </div>
-                    <div id="answer" onClick={this.changeQuestion}> Possible answer 3 </div>
+        )} else if (this.state.q1_response === "Thinking"){
+            return(
+                <div id="app_container">
+                    <div id="question_container">
+                        <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
+                    </div>
+                    <div id="answer_container">
+                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
+                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                    </div>
                 </div>
-            </div>
-        )};
+        )} else {
+            return(
+                <div id="app_container">
+                    <div id="question_container">
+                        <div id="question"> {this.state.start_question} </div>
+                    </div>
+                    <div id="answer_container">
+                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
+                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                        {/* <div id="answer" onClick={this.changeQuestion}> Possible answer 3 </div> */}
+                    </div>
+                </div>
+            )};
+        }
 }
 
 ReactDOM.render(<App />, document.querySelector('#app'));

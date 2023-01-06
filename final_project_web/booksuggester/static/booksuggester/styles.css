@@ -15,9 +15,6 @@ html {
 footer, header, #logo_container, #quotes_container {
   animation: transitionIn 1.0s ease-in-out; }
 
-#question_container {
-  animation: QuestionReappear 2.7s ease-in-out; }
-
 #answer {
   animation: AnswerReappear 2.7s ease-in-out; }
 
@@ -82,7 +79,7 @@ footer {
 #answer_container {
   display: flex;
   justify-content: space-evenly;
-  top: 140px; }
+  top: 153px; }
 
 #question_container {
   justify-content: center;
@@ -104,13 +101,13 @@ footer {
   height: 45px;
   width: 130px;
   border: solid #1F2937 2px;
-  border-width: 4px; }
+  border-width: 3px; }
 
 #question {
   height: 55px;
   width: 190px;
   border: solid #CB3C61 2px;
-  border-width: 4px; }
+  border-width: 3px; }
 
 @keyframes QuestionReappear {
   0% {
@@ -165,12 +162,44 @@ footer {
     background-color: #6F2DA8;
     border-color: #6F2DA8;
     color: #6F2DA8; } }
+@media (orientation: portrait) {
+  #quotes_container {
+    position: absolute;
+    bottom: -100px; } }
+@media (orientation: portrait) and (max-device-width: 414px) {
+  #app {
+    top: 125px; }
+
+  footer, header {
+    font-size: 23px; }
+
+  #question_container {
+    bottom: 48px; }
+
+  #answer_container {
+    top: 48px;
+    margin-top: 50px; }
+
+  #logo_container {
+    height: 330px; }
+
+  #question, #answer {
+    font-size: 25px;
+    width: 220px;
+    height: 180px; }
+
+  #quotes_container {
+    height: 330px; }
+
+  #quotes {
+    font-size: 30px; } }
 @media only screen and (max-device-height: 1000px) {
   #app {
     position: relative;
     bottom: 50px; }
 
   #quotes_container {
+    position: absolute;
     bottom: -80px; }
 
   #question {
@@ -179,7 +208,7 @@ footer {
 
   #quotes {
     position: relative;
-    bottom: 50px; }
+    bottom: 15px; }
 
   #answer_container {
     top: 165px; } }

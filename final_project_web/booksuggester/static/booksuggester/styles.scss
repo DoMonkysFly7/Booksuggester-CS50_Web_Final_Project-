@@ -10,6 +10,7 @@ $poppins-font: 'Poppins';
 $font-color-1: #FFFFFF;
 $font-color-2: #E5E7EB;
 $font-color-3: #A6CBE2;
+
 $back-color-1: #CB3C61;
 $back-color-2: #4A3163;
 $back-color-3: #1F2937;
@@ -41,9 +42,9 @@ footer, header, #logo_container, #quotes_container{
     animation: transitionIn 1.0s ease-in-out;
 }
 
-#question_container {
-    animation: QuestionReappear 2.7s ease-in-out;
-}
+// #question_container {
+    // animation: QuestionReappear 2.7s ease-in-out;
+// }
 
 #answer {
     animation: AnswerReappear 2.7s ease-in-out;
@@ -125,7 +126,7 @@ footer {
 #answer_container {
     display: flex;
     justify-content: space-evenly;
-    top: 140px;
+    top: 153px;
 }
 
 #question_container {
@@ -151,14 +152,14 @@ footer {
     height: 45px;
     width: 130px;
     border: solid $back-color-3 2px;
-    border-width: 4px;
+    border-width: 3px;
 }
 
 #question {
     height: 55px;
     width: 190px;
     border: solid $back-color-1 2px;
-    border-width: 4px;
+    border-width: 3px;
 }
 
 // Animations:
@@ -257,6 +258,52 @@ footer {
 }
 
 // Media Queries
+@media (orientation: portrait) {
+    #quotes_container {
+        position: absolute;
+        bottom: -100px;
+    }
+}
+
+// Phones
+@media (orientation: portrait) and (max-device-width: 414px)
+{
+
+    #app {
+        top: 125px;
+    }
+
+    footer, header {
+        font-size: 23px;
+    }
+
+    #question_container {
+        bottom: 48px;
+    }
+
+    #answer_container {
+        top: 48px;
+        margin-top: 50px;
+    }
+
+    #logo_container {
+        height: 330px;
+    }
+
+    #question, #answer {
+        font-size: 25px;
+        width: 220px;
+        height: 180px;
+    }
+
+    #quotes_container {
+        height: 330px;
+    }
+
+    #quotes {
+        font-size: 30px;
+    }
+}
 
 // Smaller screens 
 @media only screen and (max-device-height: 1000px) {
@@ -266,6 +313,7 @@ footer {
     }
         
     #quotes_container {
+        position: absolute;
         bottom: -80px;
     }
 
@@ -276,7 +324,7 @@ footer {
 
     #quotes {
         position: relative;
-        bottom: 50px;
+        bottom: 15px;
     }
 
     #answer_container {
