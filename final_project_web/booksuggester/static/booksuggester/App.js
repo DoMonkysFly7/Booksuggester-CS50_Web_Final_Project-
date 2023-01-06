@@ -44,13 +44,15 @@ class App extends React.Component {
         super(props);
             this.state = {
                 // Emotional or thinking type?
-                start_question: "",
+                start_question: "Emotional or thinking type?",
                 question_number: 0,
-                q1_response: "", //Trial
+                q1_response: "", 
                 books: [],
-                emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "This world sucks", "Are you artsy?", "Really young ppl write well?",
-                ],
-                thinking_q_set: []
+                emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
+                "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
+                thinking_q_set: ["", ],
+                emotional_r_set: [],
+                thinking_q_set: [],
             }
         };
 
