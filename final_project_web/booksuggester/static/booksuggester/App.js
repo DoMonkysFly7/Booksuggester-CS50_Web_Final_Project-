@@ -43,7 +43,6 @@ class App extends React.Component {
     constructor(props) {
         super(props);
             this.state = {
-                // Emotional or thinking type?
                 start_question: "Emotional or thinking type?",
                 question_number: 0,
                 q1_response: "", 
@@ -51,8 +50,10 @@ class App extends React.Component {
                 emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
                 "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
                 thinking_q_set: ["", ],
-                emotional_r_set: [],
-                thinking_q_set: [],
+                emotional_r_set: ["Yes", "No", "Kinda", "Nope", "Watching", "Reading. Duh.", "I prefer the past", "Nooo", "I prefer the future", "Another one's cool"],
+                thinking_q_set: ["",],
+                iter_number1: 0,
+                iter_number2: 1,
             }
         };
 
@@ -62,33 +63,25 @@ class App extends React.Component {
             question_number: state.question_number + 1,
         }), this.questionTime);
 
-        // Runs only on the first question to register which lists of answers/questions we go forwards with
-        if(event.target.innerHTML === "Emotional") {
-            // this.state.q1_response = "Emotional";
-            this.setState(state => ({
-                q1_response: "Emotional"
-            }));
-        } else {
-            this.state.q1_response === "Thinking";
-            this.setState(state => ({
-                q1_response: "Thinking"
-            }))
-        }
 
-        this.registerResponse(event.target.innerHTML, this.state.question_number, this.state.q1_response);
-    } 
+        let answer = event.target.innerHTML;
 
-    registerResponse = (answer, question_number, q1_response) => {
-        
-        q1_response === this.state.q1_response;
-        if (q1_response === "Emotional") {
+        // console.log(answer);
+
+        if (answer == "Emotional") {
             console.log('You are emotional!');
+            this.setState({
+                q1_response: "Emotional"
+            });
 
-        } else {
+        } else if (answer == "Thinking") {
             console.log('You like to think!');
+            this.setState({
+                q1_response: "Thinking"
+            });
         }
 
-        console.log(`${answer} : ${question_number}`);
+        // console.log(`${answer} : ${question_number}`);
         this.ApiOutput_Emotional();
     }
 
@@ -130,37 +123,45 @@ class App extends React.Component {
     render()
     {
 
-        if(this.state.q1_response === "Emotional"){
+        // Iterate possibility of response properly
+        if (this.state.question_number !== 1) {
+            console.log(this.state.question_number)
+            this.state.iter_number1 += 2;
+            this.state.iter_number2 += 2;
+        }  
+
+        if(this.state.q1_response === "Emotional" ){
             return(
                 <div id="app_container">
                     <div id="question_container">
                         <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
-                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                        <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1]}</div>
+                        <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
                     </div>
                 </div>
         )} else if (this.state.q1_response === "Thinking"){
             return(
                 <div id="app_container">
                     <div id="question_container">
-                        <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
+                        <div id="question"> {this.state.thinking_q_set[this.state.question_number]} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
-                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                        <div id="answer" onClick={this.changeQuestion}>  </div>
+                        <div id="answer" onClick={this.changeQuestion}>  </div>
                     </div>
                 </div>
         )} else {
+            // First question
             return(
                 <div id="app_container">
                     <div id="question_container">
                         <div id="question"> {this.state.start_question} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}> Emotional </div>
-                        <div id="answer" onClick={this.changeQuestion}> Thinking </div>
+                        <div id="answer"  onClick={this.changeQuestion}>Emotional</div>
+                        <div id="answer" onClick={this.changeQuestion}>Thinking</div>
                         {/* <div id="answer" onClick={this.changeQuestion}> Possible answer 3 </div> */}
                     </div>
                 </div>
