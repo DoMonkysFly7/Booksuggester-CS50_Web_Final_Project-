@@ -50,21 +50,45 @@ class App extends React.Component {
                 track_answers: [],
                 emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "Past or future?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
                                 "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
-                emotional_r_set: ["Yes", "No", "Kinda", "Nope", "Watching", "Reading. Duh.", "I prefer the past", "I prefer the future", "Another one's cool", "I guess 'tis fine","Yeah!", "Nein",
-                                "Hello no!", "Bloody yes!", "I'd like to!", "Eww.", "Indeed, sir.", "Was ist das?", "Yeah!", "Umm...no?", "AMEN BRO!", "I am my own God!", "Sure, why not!",
-                                "Like who? Elon? =))", "I want ur babies!", "MAY wnt ur babies"],
+                emotional_r_set:[{written:"Yes", hidden:"romance"},
+                                        {written:"No", hidden:"thriller"},
+                                        {written:"Kinda", hidden:"poetry"},
+                                        {written:"Nope", hidden:"short_stories"},
+                                        {written:"Watching", hidden:"-"},
+                                        {written:"Reading. Duh.", hidden:"plays"},
+                                        {written:"I prefer the past", hidden:["history", "historical_fiction"]},
+                                        {written:"I prefer the future", hidden:"science_fiction"},
+                                        {written:"Another one's cool", hidden:"fantasy"},
+                                        {written:"I guess 'tis fine", hidden:"-"},
+                                        {written:"Yeah!", hidden:["plays", "poetry", "art_history"]},
+                                        {written:"Nein", hidden:"-"},
+                                        {written:"Hello no!", hidden:"-"},
+                                        {written:"Bloody yes!", hidden:"young_people_fiction"},
+                                        {written:"Nothing scares me!", hidden:"horror"}, // If this one is positive, make sure to add Lovecraft's 
+                                        {written:"Eww!", hidden:"-"},
+                                        {written:"Indeed, struggler.", hidden:"historical_fiction"}, // Appears if certain conditions are met
+                                        {written:"Was ist das?", hidden:"-"},
+                                        {written:"Yeah!", hidden:["world_war_ii", "world_war_i"]},
+                                        {written:"Umm...no?", hidden:"-"},
+                                        {written:"AMEN BRO!", hidden:"religion"},
+                                        {written:"I am my own God!", hidden:"-"},
+                                        {written:"Sure, why not?", hidden:["biography", "autobiography"]},
+                                        {written:"Like who? Elon? =))", hidden:"-"},
+                                        {written:"I want ur babies!", hidden:"insert author personal favs"}, // obs.
+                                        {written:"MAY wnt ur babies", hidden:"-"}],
+                                
+
+
                 thinking_q_set: ["","Dostoevsky or Harry Styles?", "You know Carl Jung?", "U think bout society'n stuff?", "Who's your country's leader?", "Like reading situations/ppl?",
-                                "U go visiting castles bro?", "U listen to celebrities?", "To be a spooked fruit?", "U love me? <3"],
-                thinking_r_set: ["Dosto!", "My Harriet babe!", "Obviously.", "Who?", "Always", "Yeahhh right", "F her/him", "Idk but F her/him", "All the time.", "Huh?", "Y", "N", "Indubitably", 
-                                "Who cares?", "Banana!", "NO!", "SPELLBLINDINGLY BEAUTIFUL!", "No xoxo"],
-              
-                // Trebuie sa fie un numar par de raspunsuri, astfel react nu poate sa rendeze 'written' deoarece unul din cele doua nu ar exista
-                thinkging_r_mock_set: [ {written:"Dosto!", hidden:"literature"}, 
-                                        {written:"My Harriet babe!", hidden:"-"}, 
-                                        {written:"Obviously", hidden:"-"},
-                                        {written:"Who?", hidden:"-"},
-                                        {written:"Always", hidden:"-"},
-                                        {written:"Yeahhh right", hidden:"-"}],
+                                "U go visiting castles bro?","Teens write well?", "U listen to celebrities?", "To be a spooked fruit?", "U love me? <3"],
+
+                thinking_r_set: [{written:"Dosto!", hidden:["literature","anthropology"]},  {written:"My Harriet babe!", hidden:["romance", "short_stories"]},{written:"Obviously", hidden:"psychology"},
+                                {written:"Who?", hidden:"-"},{written:"Always", hidden:"anthropology"},{written:"Yeahhh right", hidden:"-"},{written:"F her/him", hidden:"political_science"},
+                                {written:"Idk but F her/him", hidden:"-"},{written:"All the time.", hidden:["mystery_and_detective_stories", "psychology"]},{written:"Huh?", hidden:"short_stories"},
+                                {written:"Y", hidden:"history"}, // maybe a chance at historical fiction/art history too
+                                {written:"N", hidden:"-"},{written:"U insane?", hidden:"-"},{written:"Bloody yes!", hidden:"young_adult_fiction"},{written:"Indubitably", hidden:["biography", "autobiography"]},
+                                {written:"Who cares?", hidden:"-"},{written:"Banana!", hidden:"horror"},{written:"NO!", hidden:"-"},{written:"SPELLBLINDINGLY BEAUTIFUL!", hidden:"insert author list here"}, // obs.
+                                {written:"No xoxo", hidden:"-"}], // bug after the end.
 
                 iter_number1: -2,
                 iter_number2: -1,
@@ -73,46 +97,76 @@ class App extends React.Component {
 
     changeQuestion = (event) => {
 
-        this.setState(state => ({
-            question_number: state.question_number + 1,
-        }), this.questionTime);
-        
         let answer = event.target.innerHTML;
 
-        if (answer === "Emotional") {
-            console.log('You are emotional!');
-            this.setState({
-                q1_response: "Emotional"
-            });
+        this.setState(state => ({
+            question_number: state.question_number + 1,
+        }), this.questionTime, this.ApiOutput(answer));
+        
+        if(this.state.question_number === 0) {
+            if (answer === "Emotional") {
+                console.log('You are emotional!');
+                this.setState({
+                    q1_response: "Emotional"
+                });
 
-        } else if (answer !== "Emotional") {
-            console.log('You like to think!');
-            this.setState({
-                q1_response: "Thinking"
-            });
+            } else if (answer !== "Emotional") {
+                console.log('You like to think!');
+                this.setState({
+                    q1_response: "Thinking"
+                });
+            }
         }
 
-        // console.log(`${answer} : ${question_number}`);
-        this.ApiOutput_Emotional(answer);
+        // console.log(`${answer} : ${question_number}`);;
     }
 
-    ApiOutput_Emotional = (written_answer) => {
+    ApiOutput = (written_answer) => {
         // Based on the answer first answer, we can know in which answers list are we: thinking or emotional
         // Based on each 'written' answer, we can iterate trhough the list of the answers and find its pair value
         // The pair value is sent to OpenLibrary API for subjects to add books to the user's list.
-        
+
         if (this.state.q1_response === "Thinking") {
-            this.state.thinkging_r_mock_set.forEach(item => {
+            this.state.thinking_r_set.forEach(item => {
                 if(written_answer === item.written) {
                     // The argument for the API fetch
                     console.log(item.hidden);
+
+                    this.setState(state => ({
+                        track_answers: [...state.track_answers, item.hidden]
+                    }));
                 };
             }) 
         }
 
+        if (this.state.q1_response === "Emotional") {
+            this.state.emotional_r_set.forEach(item => {
+                if(written_answer === item.written) {
+                    // The argument for the API fetch
+                    console.log(item.hidden);
+
+                    this.setState(state => ({
+                        track_answers: [...state.track_answers, item.hidden]
+                    }));
+                };
+            }) 
+        }
+
+
+        console.log('Answer ' + written_answer);
+
+        console.log("Answers: " + this.state.track_answers);
+
+        console.log("Q1 " + this.state.q1_response);
+        if(written_answer === "My Harriet babe!") {
+            this.setState({
+                q1_response: 'Emotional'
+            });
+        }
+
         // For subjects that have multiple subcategories (history and biography, for example). API searches through the /search 
         // method may be required, instead of /subjects method
-        console.log('Response registered');
+        console.log('Response registered ' + this.state.q1_response);
     }
 
     questionTime = () => {
@@ -160,8 +214,8 @@ class App extends React.Component {
                         <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1]}</div>
-                        <div id="answer" onClick={(this.changeQuestion)}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
+                        <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1].written}</div>
+                        <div id="answer" onClick={(this.changeQuestion)}>{this.state.emotional_r_set[this.state.iter_number2].written}</div>
                     </div>
                 </div>
         )} else if (this.state.q1_response === "Thinking"){
@@ -171,8 +225,8 @@ class App extends React.Component {
                         <div id="question"> {this.state.thinking_q_set[this.state.question_number]} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}>{this.state.thinkging_r_mock_set[this.state.iter_number1].written}</div>
-                        <div id="answer" onClick={this.changeQuestion}>{this.state.thinkging_r_mock_set[this.state.iter_number2].written}</div>
+                        <div id="answer" onClick={this.changeQuestion}>{this.state.thinking_r_set[this.state.iter_number1].written}</div>
+                        <div id="answer" onClick={this.changeQuestion}>{this.state.thinking_r_set[this.state.iter_number2].written}</div>
                     </div>
                 </div>
         )} else {
