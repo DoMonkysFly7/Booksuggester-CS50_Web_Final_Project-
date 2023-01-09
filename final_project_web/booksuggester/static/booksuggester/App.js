@@ -47,28 +47,24 @@ class App extends React.Component {
                 question_number: 0,
                 q1_response: "", 
                 books: [],
-                emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
+                emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "Past or future?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
                 "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
-                thinking_q_set: ["", ],
-                emotional_r_set: ["Yes", "No", "Kinda", "Nope", "Watching", "Reading. Duh.", "I prefer the past", "Nooo", "I prefer the future", "Another one's cool"],
-                thinking_q_set: ["",],
-                iter_number1: 0,
-                iter_number2: 1,
+                emotional_r_set: ["Yes", "No", "Kinda", "Nope", "Watching", "Reading. Duh.", "I prefer the past", "I prefer the future", "Another one's cool", "I guess 'tis fine","Yeah!", "Nein",
+                                "Hello no!", "Bloody yes!", "I'd like to!", "Eww.", "Indeed, sir.", "Was ist das?", "Yeah!", "Umm...no?", "AMEN BRO!", "I am my own God!", "Sure, why not!",
+                                "Like who? Elon? =))", "I want ur babies!", "MAY wnt ur babies"],
+                thinking_q_set: ["","Dostoevsky or Harry Styles?", "You know Carl Jung?", "U think bout society'n stuff?", "Who's your country's leader?"],
+                thinking_r_set: ["Dosto!", "My Harriet babe!", "Obviously.", "Who?", "Always", "Yeahhh right", "F her/him", "Idk but F her/him"],
+                iter_number1: -2,
+                iter_number2: -1,
             }
         };
 
     changeQuestion = (event) => {
 
-        if(document.querySelectorAll('.tempAnswer1')) {
-            document.querySelectorAll('.tempAnswer1').forEach(item => {
-                item.style.opacity = '0%';
-            });
-        }
-
         this.setState(state => ({
             question_number: state.question_number + 1,
         }), this.questionTime);
-
+        
         let answer = event.target.innerHTML;
 
         if (answer == "Emotional") {
@@ -127,30 +123,9 @@ class App extends React.Component {
     {   
         console.log(this.state.question_number);
 
-        // Iterate possibility of response properly (async bullshit)
-        if (this.state.question_number === 1 && this.state.q1_response === "Emotional") {
-            this.state.iter_number1 = 0;
-            this.state.iter_number2 = 1;
-        } else if (this.state.question_number === 4) {
-            console.log('fourth q');            
-                this.state.iter_number1 = this.state.iter_number1 + 4;
-                this.state.iter_number2 = this.state.iter_number2 + 4;
-
-                // Solve animation bug
-                return(
-                    <div id="app_container">
-                        <div id="question_container">
-                            <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
-                        </div>
-                        <div id="answer_container">
-                            <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1]}</div>
-                            <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
-                        </div>
-                    </div>
-                )   
-        } else {
-            this.state.iter_number1 = this.state.iter_number1 + 2;
-            this.state.iter_number2 = this.state.iter_number2 + 2;
+        if(this.state.question_number !== 0) {
+            this.state.iter_number1 += 2;
+            this.state.iter_number2 += 2;
         }
 
         if(this.state.q1_response === "Emotional" ){
@@ -171,8 +146,8 @@ class App extends React.Component {
                         <div id="question"> {this.state.thinking_q_set[this.state.question_number]} </div>
                     </div>
                     <div id="answer_container">
-                        <div id="answer" onClick={this.changeQuestion}>  </div>
-                        <div id="answer" onClick={this.changeQuestion}>  </div>
+                        <div id="answer" onClick={this.changeQuestion}> {this.state.thinking_r_set[this.state.iter_number1]} </div>
+                        <div id="answer" onClick={this.changeQuestion}> {this.state.thinking_r_set[this.state.iter_number2]} </div>
                     </div>
                 </div>
         )} else {
@@ -185,7 +160,6 @@ class App extends React.Component {
                     <div id="answer_container">
                         <div id="answer"  onClick={this.changeQuestion}>Emotional</div>
                         <div id="answer" onClick={this.changeQuestion}>Thinking</div>
-                        {/* <div id="answer" onClick={this.changeQuestion}> Possible answer 3 </div> */}
                     </div>
                 </div>
             )};
