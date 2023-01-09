@@ -15,6 +15,12 @@ html {
 footer, header, #logo_container, #quotes_container {
   animation: transitionIn 1.0s ease-in-out; }
 
+#question_container {
+  animation: QuestionReappear 2.7s ease-in-out; }
+
+#answer {
+  animation: AnswerReappear 2.7s ease-in-out; }
+
 header, footer {
   font-size: 12px;
   font-family: "Segoe UI", Verdana, sans-serif;

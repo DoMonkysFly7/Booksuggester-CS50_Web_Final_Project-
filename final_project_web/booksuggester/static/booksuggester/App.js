@@ -59,14 +59,17 @@ class App extends React.Component {
 
     changeQuestion = (event) => {
 
+        if(document.querySelectorAll('.tempAnswer1')) {
+            document.querySelectorAll('.tempAnswer1').forEach(item => {
+                item.style.opacity = '0%';
+            });
+        }
+
         this.setState(state => ({
             question_number: state.question_number + 1,
         }), this.questionTime);
 
-
         let answer = event.target.innerHTML;
-
-        // console.log(answer);
 
         if (answer == "Emotional") {
             console.log('You are emotional!');
@@ -121,14 +124,34 @@ class App extends React.Component {
     }
 
     render()
-    {
+    {   
+        console.log(this.state.question_number);
 
-        // Iterate possibility of response properly
-        if (this.state.question_number !== 1) {
-            console.log(this.state.question_number)
-            this.state.iter_number1 += 2;
-            this.state.iter_number2 += 2;
-        }  
+        // Iterate possibility of response properly (async bullshit)
+        if (this.state.question_number === 1 && this.state.q1_response === "Emotional") {
+            this.state.iter_number1 = 0;
+            this.state.iter_number2 = 1;
+        } else if (this.state.question_number === 4) {
+            console.log('fourth q');            
+                this.state.iter_number1 = this.state.iter_number1 + 4;
+                this.state.iter_number2 = this.state.iter_number2 + 4;
+
+                // Solve animation bug
+                return(
+                    <div id="app_container">
+                        <div id="question_container">
+                            <div id="question"> {this.state.emotional_q_set[this.state.question_number]} </div>
+                        </div>
+                        <div id="answer_container">
+                            <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1]}</div>
+                            <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
+                        </div>
+                    </div>
+                )   
+        } else {
+            this.state.iter_number1 = this.state.iter_number1 + 2;
+            this.state.iter_number2 = this.state.iter_number2 + 2;
+        }
 
         if(this.state.q1_response === "Emotional" ){
             return(
@@ -138,7 +161,7 @@ class App extends React.Component {
                     </div>
                     <div id="answer_container">
                         <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number1]}</div>
-                        <div id="answer" onClick={this.changeQuestion}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
+                        <div id="answer" onClick={(this.changeQuestion)}>{this.state.emotional_r_set[this.state.iter_number2]}</div>
                     </div>
                 </div>
         )} else if (this.state.q1_response === "Thinking"){
