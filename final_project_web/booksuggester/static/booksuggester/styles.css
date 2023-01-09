@@ -97,14 +97,14 @@ footer {
   border-radius: 12px;
   padding: 5px;
   display: flex;
-  justify-content: center;
-  align-items: center; }
+  justify-content: center; }
 
 #answer {
   height: 45px;
   width: 130px;
   border: solid #1F2937 2px;
-  border-width: 3px; }
+  border-width: 3px;
+  text-align: center; }
 
 #question {
   height: 55px;
