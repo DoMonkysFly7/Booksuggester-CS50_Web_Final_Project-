@@ -145,6 +145,7 @@ footer {
     padding: 5px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #answer {
@@ -152,7 +153,6 @@ footer {
     width: 130px;
     border: solid $back-color-3 2px;
     border-width: 3px;
-    text-align: center;
 }
 
 #question {
