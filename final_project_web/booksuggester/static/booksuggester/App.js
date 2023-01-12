@@ -57,13 +57,12 @@ class App extends React.Component {
                 start_question: "Emotional or thinking type?",
                 question_number: 0,
                 q1_response: "", 
-                recommended_books: [],
                 track_answers: [],
                 emotional_q_set: ["","You're kinda romantic, huh?", "Are you attentive?", "Reading or watching?", "Past or future?", "This world sucks?", "Are you artsy?", "Really young ppl write well?",
                                 "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
                 emotional_r_set:[{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Kinda", hidden:"poetry"},{written:"Nope", hidden:"short_stories"},{written:"Watching", hidden:"-"},
                                 {written:"Reading. Duh.", hidden:"plays"},{written:"I prefer the past", hidden:["history", "historical_fiction"]},{written:"I prefer the future", hidden:"science_fiction"},
-                                {written:"Another one's cool", hidden:"fantasy"},{written:"I guess 'tis fine", hidden:"-"},{written:"Yeah!", hidden:["plays", "poetry", "art_history"]},{written:"Nein", hidden:"-"},
+                                {written:"Another one's cool", hidden:"fantasy"},{written:"I guess 'tis fine", hidden:"-"},{written:"Yeah!!!", hidden:["plays", "poetry", "art_history"]},{written:"Nein", hidden:"-"},
                                 {written:"Hello no!", hidden:"-"},{written:"Bloody yes!", hidden:"young_people_fiction"},{written:"Nothing scares me!", hidden:"horror"}, // If this one is positive, make sure to add Lovecraft's 
                                 {written:"Eww!", hidden:"-"},{written:"Indeed, struggler.", hidden:"historical_fiction"}, // Appears if certain conditions are met
                                 {written:"Was ist das?", hidden:"-"},{written:"Yeah!", hidden:["world_war_ii", "world_war_i"]},{written:"Umm...no?", hidden:"-"},{written:"AMEN BRO!", hidden:"religion"},
@@ -82,6 +81,7 @@ class App extends React.Component {
                                 {written:"No xoxo", hidden:"-"}, {written:""}, {written:""}],
                 iter_number1: -2,
                 iter_number2: -1,
+                recommended_books: [],
             }
         };
 
@@ -91,7 +91,7 @@ class App extends React.Component {
 
         this.setState(state => ({
             question_number: state.question_number + 1,
-        }), this.questionTime(), this.ApiOutput(answer));
+        }), this.questionTime(), this.ApiRegister(answer));
         
         if(this.state.question_number === 0) {
             if (answer === "Emotional") {
@@ -111,10 +111,11 @@ class App extends React.Component {
         // console.log(`${answer} : ${question_number}`);;
     }
 
-    ApiOutput = (written_answer) => {
+    ApiRegister = (written_answer) => {
         // Based on the answer first answer, we can know in which answers list are we: thinking or emotional
         // Based on each 'written' answer, we can iterate trhough the list of the answers and find its pair value
         // The pair value is sent to OpenLibrary API for subjects to add books to the user's list.
+
         if (written_answer === 'I want ur babies!' || written_answer === "SPELLBLINDINGLY BEAUTIFUL!"){
             author_choices.forEach(workitem => {
                 console.log(workitem);
@@ -127,15 +128,17 @@ class App extends React.Component {
             });
         }
 
-
         if (this.state.q1_response === "Thinking") {
             this.state.thinking_r_set.forEach(item => {
                 if(written_answer === item.written) {
                     // The argument for the API fetch
-                    console.log(item.hidden);
                     this.setState(state => ({
-                        track_answers: [...state.track_answers, item.hidden]
-                    }));
+                        track_answers: [...state.track_answers, item.hidden] 
+                    }))
+
+                    if(item.hidden != "-"){
+                        // this.addBook(item.hidden);
+                    }
                 };
             }) 
         }
@@ -144,10 +147,13 @@ class App extends React.Component {
             this.state.emotional_r_set.forEach(item => {
                 if(written_answer === item.written) {
                     // The argument for the API fetch
-                    console.log(item.hidden);
                     this.setState(state => ({
-                        track_answers: [...state.track_answers, item.hidden]
-                    }));
+                        track_answers: [...state.track_answers, item.hidden] 
+                    }))
+
+                    if(item.hidden != "-"){
+                        // this.addBook(item.hidden);
+                    }
                 };
             }) 
         }
@@ -160,6 +166,8 @@ class App extends React.Component {
         }
         // For subjects that have multiple subcategories (history and biography, for example). API searches through the /search 
         // method may be required, instead of /subjects method
+
+        console.log(this.state.track_answers);
     }
 
     questionTime = () => {
@@ -194,6 +202,8 @@ class App extends React.Component {
 
     render_end() {
         console.log(this.state.recommended_books);
+
+        this.apiOutput();
         // Ending results
         return(
             <div> Done! </div>
