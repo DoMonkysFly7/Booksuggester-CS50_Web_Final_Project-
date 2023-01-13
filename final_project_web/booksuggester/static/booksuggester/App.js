@@ -1,12 +1,14 @@
+// Put the track_answers elements through another method, putting them in recommended books
+// use another method to choose a book randomly and render its information at the end
+
 // Fa o proba cu totul
 // Fa componentul de final
-// Baga comentarii autor
 
 // Direct links
-const author_choices = ['https://openlibrary.org/works/OL166894W.json','https://openlibrary.org/works/OL102749W.json','https://openlibrary.org/works/OL20600W.json',
- 'https://openlibrary.org/works/OL1168083W.json','https://openlibrary.org/works/OL21164750W.json', 'https://openlibrary.org/works/OL1268413W.json',
-'https://openlibrary.org/works/OL498463W.json', 'https://openlibrary.org/works/OL5819456W.json', 'https://openlibrary.org/works/OL103123W.json',
-'https://openlibrary.org/books/OL7383896M.json'];
+const author_choices = ['/works/OL166894W','works/OL102749W','works/OL20600W',
+ 'works/OL1168083W','works/OL21164750W', 'works/OL1268413W',
+'works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
+'books/OL7383896M'];
 // In order: "Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"
 // "The Trial", "The book thief", "Fahrenheit 451", "Petersburg Taless"
 
@@ -62,22 +64,22 @@ class App extends React.Component {
                                 "Wanna get spooked baby?", "You like Berserk (manga)?", "Historical human suffering?", "Ur God's cool?", "U listen to important ppl?", "You trust me?"],
                 emotional_r_set:[{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Kinda", hidden:"poetry"},{written:"Nope", hidden:"short_stories"},{written:"Watching", hidden:"-"},
                                 {written:"Reading. Duh.", hidden:"plays"},{written:"I prefer the past", hidden:["history", "historical_fiction"]},{written:"I prefer the future", hidden:"science_fiction"},
-                                {written:"Another one's cool", hidden:"fantasy"},{written:"I guess 'tis fine", hidden:"-"},{written:"Yeah!!!", hidden:["plays", "poetry", "art_history"]},{written:"Nein", hidden:"-"},
+                                {written:"Another one's cool", hidden:"fantasy"},{written:"I guess 'tis fine", hidden:"-"},{written:"Yeah!!!", hidden:"plays"},{written:"Nein", hidden:"-"},
                                 {written:"Hello no!", hidden:"-"},{written:"Bloody yes!", hidden:"young_people_fiction"},{written:"Nothing scares me!", hidden:"horror"}, // If this one is positive, make sure to add Lovecraft's 
                                 {written:"Eww!", hidden:"-"},{written:"Indeed, struggler.", hidden:"historical_fiction"}, // Appears if certain conditions are met
                                 {written:"Was ist das?", hidden:"-"},{written:"Yeah!", hidden:["world_war_ii", "world_war_i"]},{written:"Umm...no?", hidden:"-"},{written:"AMEN BRO!", hidden:"religion"},
                                 {written:"I am my own God!", hidden:"-"},{written:"Sure, why not?", hidden:["biography", "autobiography"]},{written:"Like who? Elon? =))", hidden:"-"},
-                                {written:"I want ur babies!", hidden:author_choices}, // obs.
+                                {written:"I want ur babies!", hidden:"-"}, 
                                 {written:"MAY wnt ur babies", hidden:"-"}, {written:""}, {written:""}],
 
                 thinking_q_set: ["","Dostoevsky or Harry Styles?", "You know Carl Jung?", "U think bout society'n stuff?", "Who's your country's leader?", "Like reading situations/ppl?",
                                 "U go visiting castles bro?","Teens write well?", "U listen to celebrities?", "To be a spooked fruit?", "U love me? <3"],
-                thinking_r_set: [{written:"Dosto!", hidden:["literature","anthropology"]},  {written:"My Harriet babe!", hidden:["romance", "short_stories"]},{written:"Obviously", hidden:"psychology"},
+                thinking_r_set: [{written:"Dosto!", hidden:"literature"},  {written:"My Harriet babe!", hidden:"romance"},{written:"Obviously", hidden:"psychology"},
                                 {written:"Who?", hidden:"-"},{written:"Always", hidden:"anthropology"},{written:"Yeahhh right", hidden:"-"},{written:"F her/him", hidden:"political_science"},
-                                {written:"Idk but F her/him", hidden:"-"},{written:"All the time.", hidden:["mystery_and_detective_stories", "psychology"]},{written:"Huh?", hidden:"short_stories"},
+                                {written:"Idk but F her/him", hidden:"-"},{written:"All the time.", hidden:"mystery_and_detective_stories"},{written:"Huh?", hidden:"short_stories"},
                                 {written:"Y", hidden:"history"}, // maybe a chance at historical fiction/art history too
                                 {written:"N", hidden:"-"},{written:"U insane?", hidden:"-"},{written:"Bloody yes!", hidden:"young_adult_fiction"},{written:"Indubitably", hidden:["biography", "autobiography"]},
-                                {written:"Who cares?", hidden:"-"},{written:"Banana!", hidden:"horror"},{written:"NO!", hidden:"-"},{written:"SPELLBLINDINGLY BEAUTIFUL!", hidden:author_choices}, // obs.
+                                {written:"Who cares?", hidden:"-"},{written:"Banana!", hidden:"horror"},{written:"NO!", hidden:"-"},{written:"SPELLBLINDINGLY BEAUTIFUL!", hidden:"-"}, // obs.
                                 {written:"No xoxo", hidden:"-"}, {written:""}, {written:""}],
                 iter_number1: -2,
                 iter_number2: -1,
@@ -115,59 +117,50 @@ class App extends React.Component {
         // Based on the answer first answer, we can know in which answers list are we: thinking or emotional
         // Based on each 'written' answer, we can iterate trhough the list of the answers and find its pair value
         // The pair value is sent to OpenLibrary API for subjects to add books to the user's list.
-
-        if (written_answer === 'I want ur babies!' || written_answer === "SPELLBLINDINGLY BEAUTIFUL!"){
-            author_choices.forEach(workitem => {
-                console.log(workitem);
-                // Put book keys in state.recommended_books;
-                fetch(`${workitem}`)
-                .then(res => res.json())
-                .then(book_info => {
-                    console.log(book_info['key']);
-                })
-            });
-        }
-
-        if (this.state.q1_response === "Thinking") {
-            this.state.thinking_r_set.forEach(item => {
-                if(written_answer === item.written) {
-                    // The argument for the API fetch
-                    this.setState(state => ({
-                        track_answers: [...state.track_answers, item.hidden] 
-                    }))
-
-                    if(item.hidden != "-"){
-                        // this.addBook(item.hidden);
-                    }
-                };
-            }) 
-        }
-
-        if (this.state.q1_response === "Emotional") {
-            this.state.emotional_r_set.forEach(item => {
-                if(written_answer === item.written) {
-                    // The argument for the API fetch
-                    this.setState(state => ({
-                        track_answers: [...state.track_answers, item.hidden] 
-                    }))
-
-                    if(item.hidden != "-"){
-                        // this.addBook(item.hidden);
-                    }
-                };
-            }) 
-        }
-
+        
         // Modify route - if necessary
         if(written_answer === "My Harriet babe!") {
             this.setState({
                 q1_response: 'Emotional'
             });
         }
+
+        if (written_answer === 'I want ur babies!' || written_answer === 'SPELLBLINDINGLY BEAUTIFUL!'){
+            author_choices.forEach(workitem => {
+                console.log(workitem);
+
+                this.setState(state => ({
+                    recommended_books: [...state.recommended_books, workitem]
+                }))
+            });
+        }
+
+        if (this.state.q1_response === "Thinking") {
+            this.state.thinking_r_set.forEach(item => {
+                if(written_answer === item.written) {
+                    if(item.hidden != "-"){
+                        this.setState(state => ({
+                            track_answers: [...state.track_answers, item.hidden] 
+                        }))
+                    }
+                };
+            }) 
+        }
+
+        else if (this.state.q1_response === "Emotional") {
+            this.state.emotional_r_set.forEach(item => {
+                if(written_answer === item.written) {
+                    if(item.hidden != "-"){
+                        this.setState(state => ({
+                            track_answers: [...state.track_answers, item.hidden] 
+                        }))
+                    }
+                };
+            }) 
+        }
+
         // For subjects that have multiple subcategories (history and biography, for example). API searches through the /search 
         // method may be required, instead of /subjects method
-
-        console.log(this.state.track_answers);
     }
 
     questionTime = () => {
@@ -200,15 +193,40 @@ class App extends React.Component {
         document.querySelector('#answer_container').style.animation = 'none';
     }
 
-    render_end() {
-        console.log(this.state.recommended_books);
+    ApiOutput = () => {
+        
 
-        this.apiOutput();
-        // Ending results
-        return(
-            <div> Done! </div>
-        )
-    }
+        setTimeout(() => {
+            
+            const tracked_answers = this.state.track_answers;
+
+              tracked_answers.forEach(item => {
+                  fetch(`https://openlibrary.org/subjects/${item}.json?limit=1`)
+                  .then(res => res.json())
+                  .then(output => {
+                      output['works'].forEach((book) => {
+                          
+                      console.log(book);
+                          
+                      this.setState(state => ({
+                          recommended_books: [...state.recommended_books, book['key']]
+                      }))
+                  })
+              })
+
+        }, 5000);
+
+        console.log(this.state.recommended_books);
+        console.log(this.state.track_answers);
+        
+        render()
+            return(
+                <div>
+                    <div> Done! </div>
+                    <h3> {this.state.recommended_books}</h3>
+                </div>
+            )
+    })}
 
     render()
     {   
@@ -221,7 +239,7 @@ class App extends React.Component {
 
         if(this.state.q1_response === "Emotional" ){
             if (this.state.emotional_r_set[this.state.iter_number2].written === "") {
-                return this.render_end();
+                return this.ApiOutput();
             }
 
             return(
@@ -236,7 +254,7 @@ class App extends React.Component {
                 </div>
         )} else if (this.state.q1_response === "Thinking"){
             if(this.state.thinking_r_set[this.state.iter_number2].written === "") {
-                return this.render_end();
+                return this.ApiOutput();
             }
             return(
                 <div id="app_container">
