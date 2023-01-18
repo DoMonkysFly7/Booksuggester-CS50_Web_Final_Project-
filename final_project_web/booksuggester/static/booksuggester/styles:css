@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+#copyright {
+  margin-right: 3px; }
+
+body {
+  background-color: #E5E7EB;
+  margin: 0px;
+  zoom: 125%;
+  max-zoom: 125%; }
+
+html {
+  max-width: 100%;
+  overflow-x: hidden; }
+
+footer, header, #logo_container, #quotes_container {
+  animation: transitionIn 1.0s ease-in-out; }
+
+#question_container {
+  animation: QuestionReappear 2.7s ease-in-out; }
+
+#answer {
+  animation: AnswerReappear 2.7s ease-in-out; }
+
+header, footer {
+  font-size: 12px;
+  font-family: "Segoe UI", Verdana, sans-serif;
+  position: fixed;
+  width: 100%;
+  height: 34px;
+  background-color: #CB3C61;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+header {
+  top: 0; }
+
+footer {
+  bottom: 0;
+  background-color: #1F2937; }
+
+#quotes_container {
+  position: fixed;
+  width: 100%;
+  bottom: 34px;
+  background-color: #F3E7D3;
+  color: #1F2937;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 1.5s ease-in-out;
+  font-family: "Poppins"; }
+
+#quotes_container.colorTransition {
+  background-color: #1F2937; }
+
+#logo_container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background-color: #F3E7D3;
+  height: 200px;
+  position: relative;
+  top: 33.2px;
+  transition: background-color 1.5s ease-in-out; }
+
+#logo_container.colorTransition {
+  background-color: #CB3C61; }
+
+#logo {
+  position: relative;
+  bottom: 155px;
+  margin: none; }
+
+#answer_container, #question_container {
+  display: flex;
+  align-items: center;
+  position: relative; }
+
+#answer_container {
+  display: flex;
+  justify-content: space-evenly;
+  top: 153px; }
+
+#question_container {
+  justify-content: center;
+  top: 100px; }
+
+#answer, #question {
+  color: #1F2937;
+  background-color: #F3E7D3;
+  font-size: 14px;
+  font-family: "Segoe UI", Verdana, sans-serif;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+#answer {
+  height: 45px;
+  width: 130px;
+  border: solid #1F2937 2px;
+  border-width: 3px; }
+
+#question {
+  height: 55px;
+  width: 190px;
+  border: solid #CB3C61 2px;
+  border-width: 3px; }
+
+@keyframes QuestionReappear {
+  0% {
+    transform: translateY(0%);
+    opacity: 0%; }
+  50% {
+    transform: translateY(-88%);
+    opacity: 0%; }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%; } }
+@keyframes AnswerReappear {
+  0% {
+    transform: translateY(0%);
+    opacity: 0%; }
+  50% {
+    transform: translateY(105%);
+    opacity: 0%; }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%; } }
+@keyframes transitionIn {
+  from {
+    opacity: 0;
+    transform: rotateX(10deg); }
+  to {
+    opacity: 1;
+    transform: rotateX(0); } }
+@keyframes runRight {
+  from {
+    transform: translateX(0%); }
+  to {
+    transform: translateX(600%); } }
+@keyframes runLeft {
+  from {
+    transform: translateX(0%); }
+  to {
+    transform: translateX(-400%); } }
+@keyframes Question-colorize {
+  from {
+    background-color: #F3E7D3;
+    color: #1F2937; }
+  to {
+    background-color: #6F2DA8;
+    color: #6F2DA8;
+    border-color: #6F2DA8; } }
+@keyframes Answer-colorize {
+  from {
+    background-color: #F3E7D3;
+    color: #1F2937; }
+  to {
+    background-color: #6F2DA8;
+    border-color: #6F2DA8;
+    color: #6F2DA8; } }
+@media (orientation: portrait) {
+  #quotes_container {
+    position: absolute;
+    bottom: -100px; } }
+@media (orientation: portrait) and (max-device-width: 414px) {
+  #app {
+    top: 125px; }
+
+  footer, header {
+    font-size: 23px; }
+
+  #question_container {
+    bottom: 48px; }
+
+  #answer_container {
+    top: 48px;
+    margin-top: 50px; }
+
+  #logo_container {
+    height: 330px; }
+
+  #question, #answer {
+    font-size: 25px;
+    width: 220px;
+    height: 180px; }
+
+  #quotes_container {
+    height: 330px; }
+
+  #quotes {
+    font-size: 30px; } }
+@media only screen and (max-device-height: 1000px) {
+  #app {
+    position: relative;
+    bottom: 50px; }
+
+  #quotes_container {
+    position: absolute;
+    bottom: -80px; }
+
+  #question {
+    position: relative;
+    top: 45px; }
+
+  #quotes {
+    position: relative;
+    bottom: 15px; }
+
+  #answer_container {
+    top: 165px; } }
+
+/*# sourceMappingURL=styles:css.map */
