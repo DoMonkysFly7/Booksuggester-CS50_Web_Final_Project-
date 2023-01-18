@@ -1,9 +1,6 @@
-const author_choices = ['works/OL166894W','works/OL102749W','works/OL20600W',
- 'works/OL1168083W','works/OL21164750W', 'works/OL1268413W',
-'works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
+const author_choices = ['works/OL166894W','works/OL102749W','works/OL20600W','works/OL1168083W','works/OL21164750W', 'works/OL1268413W','works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
 'books/OL7383896M'];
-// In order: "Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"
-// "The Trial", "The Book Thief", "Fahrenheit 451", "Petersburg Tales"
+//Order:"Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"// "The Trial", "The Book Thief", "Fahrenheit 451", "Petersburg Tales"
 
 const author_choice_temp = []
 
@@ -53,6 +50,7 @@ class App extends React.Component {
             this.state = {
                 question_number: 0,
                 
+                suggestions: [],
                 books: [],
 
                 questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Teens write well?","U listen to 'important' ppl?","Love me?","Which u choose?",
@@ -114,13 +112,20 @@ class App extends React.Component {
                     const description = book['description'];
                     const author_array = book['authors'][0];
                     const author_key = author_array['author']['key'];
-                    console.log(author_key);
                     const cover_id = book['covers'][16];
                     const title = book['title'];
-                    console.log(title);
                     const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-
-                    author_choice_temp.push({title, description, source_img});
+                    console.log(author_key);
+                    
+                    fetch(`https://openlibrary.org${author_key}.json`)
+                    .then(response => response.json())
+                    .then(result => {
+                        const author = result['personal_name'];
+                        author_choice_temp.push({title,author,description,source_img});
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
                 })
                 .catch(error => {
                     console.log(error);
@@ -128,8 +133,10 @@ class App extends React.Component {
             })
         
             this.setState(state => ({
-                books: [...state.books, author_choice_temp]
+                suggestions: [...state.suggestions, author_choice_temp]
             }));
+        } else {
+            // Continue here, what happens if we got a regular question -> get the hidden value, get first ten books, choose one randomly, get its info, add it to the list
         }
     }
 
@@ -165,9 +172,6 @@ class App extends React.Component {
 
     render()
     {   
-        console.log(this.state.books);
-        console.log(this.state.books[0]);
-
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
