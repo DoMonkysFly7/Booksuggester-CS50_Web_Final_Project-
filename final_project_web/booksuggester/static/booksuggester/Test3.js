@@ -100,7 +100,6 @@ class App extends React.Component {
     }
 
     ApiCalls = (written_answer) => {
-        
         if (written_answer === 'I want ur babies!'){
             author_choices.forEach(workitem => {
 
@@ -108,14 +107,12 @@ class App extends React.Component {
                 .then(response => response.json())
                 .then(book => {
                     // Print result
-                    console.log(book);
                     const description = book['description'];
                     const author_array = book['authors'][0];
                     const author_key = author_array['author']['key'];
                     const cover_id = book['covers'][16];
                     const title = book['title'];
                     const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-                    console.log(author_key);
                     
                     fetch(`https://openlibrary.org${author_key}.json`)
                     .then(response => response.json())
@@ -127,16 +124,52 @@ class App extends React.Component {
                         console.log(error);
                     })
                 })
-                .catch(error => {
-                    console.log(error);
-                })
             })
         
             this.setState(state => ({
                 suggestions: [...state.suggestions, author_choice_temp]
             }));
         } else {
+            // Check if 'axios' can be used
             // Continue here, what happens if we got a regular question -> get the hidden value, get first ten books, choose one randomly, get its info, add it to the list
+            this.state.answers.forEach((answer) => {
+                if(answer.written === written_answer && answer.hidden !== '-'){
+                    const subject = answer.hidden;
+                    let temp = [];
+                    fetch(`https://openlibrary.org/subjects/${subject}.json?limit=10`)
+                    .then(res => res.json())
+                    .then(output => {
+                        output['works'].forEach((book) => {
+                            console.log(book);
+                            const description = book['description'];
+                            const author_array = book['authors'][0];
+                            const author_key = author_array['key'];
+                            const cover_id = book['cover_id'];
+                            console.log(cover_id);
+                            const title = book['title'];
+                            const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`
+                            
+                            fetch(`https://openlibrary.org${author_key}.json`)
+                            .then(response => response.json())
+                            .then(result => {
+                                const author = result['personal_name'];
+                                temp.push({title,author,description,source_img});
+                                if(temp.length === 10){
+                                    // console.log(temp);
+                                    const get_random = Math.ceil(Math.random() * 10);
+                                    console.log(temp[get_random]);
+                                    this.setState(state => ({
+                                        books: [...state.books, temp[get_random]]
+                                    }))
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+                        })
+                    })
+                }
+            })
         }
     }
 
@@ -172,6 +205,9 @@ class App extends React.Component {
 
     render()
     {   
+        console.log(this.state.books);
+        console.log(this.state.suggestions);
+
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
