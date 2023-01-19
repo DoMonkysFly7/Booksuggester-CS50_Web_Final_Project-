@@ -50,21 +50,18 @@ class App extends React.Component {
         super(props);
             this.state = {
                 question_number: 0,
-                
-                suggestions: [{"":""}],
+                suggestions: [],
                 books: [{"":""}],
-
-
-                // questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
-                // "Historical human suffering?","You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
-                // "You know Carl Jung?","Go recite poetry nerd","U go theater?","U think bout society'n stuff?","Ur an art student?","Long books are too long?","I give u bloody stories!",
-                // "Ppl tlking bout themselves?"],
-
-                questions: ["You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
+                questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
+                "Historical human suffering?","You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
                 "You know Carl Jung?","Go recite poetry nerd","U go theater?","U think bout society'n stuff?","Ur an art student?","Long books are too long?","I give u bloody stories!",
                 "Ppl tlking bout themselves?"],
-
-                answers: [{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
+                answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
+                {written:"I hate her/him", hidden:"political_science", quote:"Don't we all."},{written:"Idk", hidden:"-"},{written:"Don't think so", hidden:"-"},{written:"Of coursely.",hidden:"young_adult_fiction",
+                quote:"Figured as much"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-",
+                quote:"I am flattered."},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
+                {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
+                quote:":("},{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
                 {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my boy!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
                 {written:"AMEN BRO!",hidden:"religion",quote:"Chilllll..."},{written:"I am my own God!", hidden:"-"},
                 {written:"Dosto!", hidden:"classics"},{written:"My Harriet babe!",hidden:"-",quote:"Pls never contact me"},{written:"Obviously", hidden:"psychoanalysis"},{written:"Who?", hidden:"-",
@@ -75,24 +72,6 @@ class App extends React.Component {
                 hidden:"historical_-_general",quote:"You so fragile!"},{written:"YES!",hidden:"violence",quote:"Get help."},{written:"...Yes?",hidden:"autobiography",quote:"???"},{written:"Who cares??",
                 hidden:"-",quote:"Indeed."}
                 ,{written: "", hidden:"-"},{written: "", hidden:"-"}],
-                
-                // answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
-                // {written:"I hate her/him", hidden:"political_science", quote:"Don't we all."},{written:"Idk", hidden:"-"},{written:"Don't think so", hidden:"-"},{written:"Of coursely.",hidden:"young_adult_fiction",
-                // quote:"Figured as much"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-",
-                // quote:"I am flattered."},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
-                // {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
-                // quote:":("},{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
-                // {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my boy!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
-                // {written:"AMEN BRO!",hidden:"religion",quote:"Chilllll..."},{written:"I am my own God!", hidden:"-"},
-                // {written:"Dosto!", hidden:"classics"},{written:"My Harriet babe!",hidden:"-",quote:"Pls never contact me"},{written:"Obviously", hidden:"psychoanalysis"},{written:"Who?", hidden:"-",
-                // quote:"Bro..."},{written:"Mkay",hidden:"poetry",quote:"That's a good boy-girl!"},{written:"No ty", hidden:"-"},{written:"Yes!!!", hidden:"play"},{written:"Nein", hidden:"-",
-                // quote:"Missing out really"},{written:"Always",hidden:"society",quote:"Check out the anime 'Psycho-Pass"},{written:"Yeahhh right",hidden:"-",quote:"Not like ur parte of it"},
-                // {written:"That I am!",hidden:"art_history",quote:"Only an art student would care about art history really",},{written:"God no",hidden:"-",quote:"So you are normal then"},
-                // {written:"Man yes...",hidden:"short_stories",quote:"You sure don't got time for that"},{written:"I like them",hidden:"-",quote:"U want a prize or smth?"},{written:"Please no!",
-                // hidden:"historical_-_general",quote:"You so fragile!"},{written:"YES!",hidden:"violence",quote:"Get help."},{written:"...Yes?",hidden:"autobiography",quote:"???"},{written:"Who cares??",
-                // hidden:"-",quote:"Indeed."}
-                // ,{written: "", hidden:"-"},{written: "", hidden:"-"}],
-
                 iter_number1: -2,
                 iter_number2: -1,
             }
@@ -115,15 +94,9 @@ class App extends React.Component {
                 .then(response => response.json())
                 .then(book => {
                     let description = book['description'];
-                    if(book['description']['type']){
-                        description = book['description']['value'];
-                    } else {
-                        description = book['description']
-                    }
-                    console.log(description);
                     const author_array = book['authors'][0];
                     const author_key = author_array['author']['key'];
-                    const cover_id = book['covers'][0];
+                    const cover_id = book['covers'][3];
                     const title = book['title'];
                     const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
                     
@@ -132,6 +105,7 @@ class App extends React.Component {
                     .then(result => {
                         const author = result['personal_name'];
                         author_choice_temp.push({title,author,description,source_img});
+                        // console.log({title,author,description,source_img});
                     })
                     .catch(error => {
                         console.log(error);
@@ -157,22 +131,18 @@ class App extends React.Component {
                             .then(book => {
                                 // console.log(book['subject_times']);
                                 let description = book['description'];
-                                // if(book['description']['type']){
-                                //     description = book['description']['value'];
-                                // } else {
-                                //     description = book['description']
-                                // }
                                 const author_array = book['authors'][0];
                                 const author_key = author_array['author']['key'];
-                                const cover_id = book['covers'][0];
+                                const cover_id = book['covers'][3];
                                 const title = book['title'];
                                 const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-                                
+                            
                                 fetch(`https://openlibrary.org${author_key}.json`)
                                 .then(response => response.json())
                                 .then(result => {
                                     const author = result['personal_name'];
                                     temp.push({title,author,description,source_img});
+                                    // console.log({title,author,description,source_img});
                                     if(temp.length === limit){
                                         let get_random = Math.ceil(Math.random() * 20);;
                                         if(temp[get_random] === undefined) {
@@ -180,19 +150,17 @@ class App extends React.Component {
                                             if(temp[get_random - 1]['description']['value']) {
                                                 temp[get_random - 1]['description'] = temp[get_random - 1]['description']['value']
                                             }
-                                            console.log(temp[get_random - 1]['description']);
                                         } else {
                                             this.state.books.push(temp[get_random]);
                                             if(temp[get_random]['description']['value']) {
                                                 temp[get_random]['description'] = temp[get_random]['description']['value']
                                             }
-                                            console.log(temp[get_random - 1]['description']);
                                         }
                                     }
                                 })
-                                .catch(error => {
-                                    console.log(error);
-                                })
+                            })
+                            .catch(error => {
+                                console.log(error);
                             })
                         })
                     })
@@ -233,9 +201,7 @@ class App extends React.Component {
 
     render()
     {   
-        console.log(this.state.books);
-        // console.log(this.state.suggestions);
-
+        console.log(this.state.suggestions);
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
@@ -244,13 +210,38 @@ class App extends React.Component {
             const rand_final_choice = this.state.books[get_final_random];
             console.log(get_final_random);
             console.log(rand_final_choice);
-            // Pare sa nu ia ultima carte in considerare - wait function with a loading screen?
+
+
+            if(this.state.suggestions[0] !== undefined){
+                const get_final_random_auth_choice = Math.floor(Math.random()*10); // Rand between 0-9
+                const rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
+
+                console.log(get_final_random_auth_choice);
+                console.log(rand_auth_choice);
+
+
+                return(
+                    <div>
+                            <h6>{rand_final_choice['title']}</h6>
+                            <h6>{rand_final_choice['author']}</h6>
+                            <h6>{rand_final_choice['description']}</h6>
+                            <img src={rand_final_choice['source_img']}/>
+    
+                            Auth's choice(if any):
+                            <h6>{rand_auth_choice['title']}</h6>
+                            <h6>{rand_auth_choice['author']}</h6>
+                            <h6>{rand_auth_choice['description']}</h6>
+                            <img src={rand_auth_choice['source_img']}/>
+                    </div>
+                )
+            } 
+
             return(
                 <div>
-                    <h6>{rand_final_choice['title']}</h6>
-                    <h6>{rand_final_choice['author']}</h6>
-                    <h6>{rand_final_choice['description']}</h6>
-                    <img src={rand_final_choice['source_img']}/>
+                        <h6>{rand_final_choice['title']}</h6>
+                        <h6>{rand_final_choice['author']}</h6>
+                        <h6>{rand_final_choice['description']}</h6>
+                        <img src={rand_final_choice['source_img']}/>
                 </div>
             )
         }
