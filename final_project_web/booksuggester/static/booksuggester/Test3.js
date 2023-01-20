@@ -89,14 +89,13 @@ class App extends React.Component {
     ApiCalls = (written_answer) => {
         if (written_answer === 'I want ur babies!'){
             author_choices.forEach(workitem => {
-
                 fetch(`https://openlibrary.org/${workitem}.json`)
                 .then(response => response.json())
                 .then(book => {
                     let description = book['description'];
                     const author_array = book['authors'][0];
                     const author_key = author_array['author']['key'];
-                    const cover_id = book['covers'][3];
+                    const cover_id = book['covers'][0];
                     const title = book['title'];
                     const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
                     
@@ -105,7 +104,6 @@ class App extends React.Component {
                     .then(result => {
                         const author = result['personal_name'];
                         author_choice_temp.push({title,author,description,source_img});
-                        // console.log({title,author,description,source_img});
                     })
                     .catch(error => {
                         console.log(error);
@@ -120,7 +118,7 @@ class App extends React.Component {
             this.state.answers.forEach((answer) => {
                 if(answer.written === written_answer && answer.hidden !== '-'){
                     const subject = answer.hidden;
-                    console.log(subject);
+                    // console.log(subject);
                     let temp = [{"":""}];
                     fetch(`https://openlibrary.org/subjects/${subject}.json?limit=${limit}`)
                     .then(res => res.json())
@@ -133,7 +131,9 @@ class App extends React.Component {
                                 let description = book['description'];
                                 const author_array = book['authors'][0];
                                 const author_key = author_array['author']['key'];
-                                const cover_id = book['covers'][3];
+                                const cover_id = book['covers'][0];
+                                console.log(book['covers']);
+                                console.log(cover_id);
                                 const title = book['title'];
                                 const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
                             
@@ -148,13 +148,16 @@ class App extends React.Component {
                                         if(temp[get_random] === undefined) {
                                             this.state.books.push(temp[get_random - 1]);
                                             if(temp[get_random - 1]['description']['value']) {
-                                                temp[get_random - 1]['description'] = temp[get_random - 1]['description']['value']
+                                                temp[get_random - 1]['description'] = temp[get_random - 1]['description']['value'];
+                                                console.log(temp[get_random-1]['description']['value']);
+                                                this.state.books.push(temp[get_random - 1]);
+                                                console.log(temp[get_random - 1]['description']);
+                                                console.log(temp[get_random-1]);
+                                            } else {
+                                                this.state.books.push(temp[get_random - 1]);
                                             }
                                         } else {
                                             this.state.books.push(temp[get_random]);
-                                            if(temp[get_random]['description']['value']) {
-                                                temp[get_random]['description'] = temp[get_random]['description']['value']
-                                            }
                                         }
                                     }
                                 })
@@ -168,7 +171,6 @@ class App extends React.Component {
             })
         }
     }
-
     questionTime = () => {
         const logo_container = document.querySelector('#logo_container');
         const logo = document.querySelector('#logo');
@@ -186,12 +188,10 @@ class App extends React.Component {
         answer.forEach(a => {
             a.style.animation = 'Answer-colorize 3.9s reverse';
         })
-
         window.setTimeout(this.qReset, 3750);
     }
 
     qReset = async () => {
-
         document.querySelectorAll('#answer').forEach(a => {
             a.style.animation = 'none';
         });
@@ -201,25 +201,21 @@ class App extends React.Component {
 
     render()
     {   
-        console.log(this.state.suggestions);
+
+        console.log(this.state.books);
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
         if(this.state.questions[this.state.question_number] === undefined){
-            const get_final_random = Math.ceil(Math.random() * this.state.books.length);
+            const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             const rand_final_choice = this.state.books[get_final_random];
-            console.log(get_final_random);
-            console.log(rand_final_choice);
-
 
             if(this.state.suggestions[0] !== undefined){
                 const get_final_random_auth_choice = Math.floor(Math.random()*10); // Rand between 0-9
                 const rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
-
-                console.log(get_final_random_auth_choice);
                 console.log(rand_auth_choice);
-
-
+                console.log(rand_final_choice);
+                console.log(get_final_random);
                 return(
                     <div>
                             <h6>{rand_final_choice['title']}</h6>
@@ -235,7 +231,7 @@ class App extends React.Component {
                     </div>
                 )
             } 
-
+            console.log(rand_final_choice);
             return(
                 <div>
                         <h6>{rand_final_choice['title']}</h6>
