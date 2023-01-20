@@ -105,6 +105,7 @@ footer {
     justify-content: center;
     align-content: center;
     background-color: $back-color-6;
+    text-align: center;
     height: 200px; 
     position: relative;
     top: 33.2px;
@@ -167,6 +168,18 @@ footer {
     width: 190px;
     border: solid $back-color-1 2px;
     border-width: 3px;
+}
+
+#auth_comments {
+    color: $font-color-1;
+    font-size: 20px;
+    position: fixed;
+    top: 100px;
+    font-family: $standard-font;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 // Animations:

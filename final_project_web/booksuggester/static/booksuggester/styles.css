@@ -67,6 +67,7 @@ footer {
   justify-content: center;
   align-content: center;
   background-color: #F3E7D3;
+  text-align: center;
   height: 200px;
   position: relative;
   top: 33.2px;
@@ -117,6 +118,17 @@ footer {
   width: 190px;
   border: solid #CB3C61 2px;
   border-width: 3px; }
+
+#auth_comments {
+  color: #FFFFFF;
+  font-size: 20px;
+  position: fixed;
+  top: 100px;
+  font-family: "Segoe UI", Verdana, sans-serif;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
 @keyframes QuestionReappear {
   0% {
