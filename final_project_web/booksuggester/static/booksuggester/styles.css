@@ -9,7 +9,7 @@
   transform: translate(-50%, -50%); }
 
 body {
-  background-color: #E5E7EB;
+  background-color: #fdefd7;
   margin: 0px;
   zoom: 125%;
   max-zoom: 125%; }
@@ -28,12 +28,12 @@ footer, header, #logo_container, #quotes_container {
   animation: AnswerReappear 2.7s ease-in-out; }
 
 header, footer {
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Segoe UI", Verdana, sans-serif;
   position: fixed;
   width: 100%;
   height: 34px;
-  background-color: #CB3C61;
+  background-color: #AD0E39;
   color: #FFFFFF;
   display: flex;
   justify-content: center;
@@ -44,14 +44,14 @@ header {
 
 footer {
   bottom: 0;
-  background-color: #1F2937; }
+  background-color: #593903; }
 
 #quotes_container {
   position: fixed;
   width: 100%;
   bottom: 34px;
-  background-color: #F3E7D3;
-  color: #1F2937;
+  background-color: #ffe6bb;
+  color: #091E22;
   height: 200px;
   display: flex;
   justify-content: center;
@@ -60,13 +60,14 @@ footer {
   font-family: "Poppins"; }
 
 #quotes_container.colorTransition {
-  background-color: #1F2937; }
+  background-color: #593903;
+  color: #593903; }
 
 #logo_container {
   display: flex;
   justify-content: center;
   align-content: center;
-  background-color: #F3E7D3;
+  background-color: #ffe6bb;
   text-align: center;
   height: 200px;
   position: relative;
@@ -74,7 +75,7 @@ footer {
   transition: background-color 1.5s ease-in-out; }
 
 #logo_container.colorTransition {
-  background-color: #CB3C61; }
+  background-color: #AD0E39; }
 
 #logo {
   position: relative;
@@ -96,10 +97,10 @@ footer {
   top: 100px; }
 
 #answer, #question {
-  color: #1F2937;
-  background-color: #F3E7D3;
-  font-size: 14px;
-  font-family: "Segoe UI", Verdana, sans-serif;
+  color: #091E22;
+  background-color: #ffe6bb;
+  font-size: 13px;
+  font-family: "Poppins";
   font-weight: bold;
   border-radius: 12px;
   padding: 5px;
@@ -110,22 +111,26 @@ footer {
 #answer {
   height: 45px;
   width: 130px;
-  border: solid #1F2937 2px;
-  border-width: 3px; }
+  border: solid #593903;
+  border-width: 2.6px; }
+
+#answer:hover {
+  background-color: #db6383;
+  color: #FFFFFF; }
 
 #question {
-  height: 55px;
-  width: 190px;
-  border: solid #CB3C61 2px;
-  border-width: 3px; }
+  height: 65px;
+  width: 220px;
+  border: solid #593903;
+  border-width: 2.6px; }
 
 #auth_comments {
   color: #FFFFFF;
   font-size: 20px;
-  position: fixed;
-  top: 100px;
-  font-family: "Segoe UI", Verdana, sans-serif;
-  font-weight: bold;
+  position: absolute;
+  top: 65px;
+  font-family: "Poppins";
+  font-weight: normal;
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -169,20 +174,20 @@ footer {
     transform: translateX(-400%); } }
 @keyframes Question-colorize {
   from {
-    background-color: #F3E7D3;
-    color: #1F2937; }
+    background-color: #ffe6bb;
+    color: #091E22; }
   to {
-    background-color: #6F2DA8;
-    color: #6F2DA8;
-    border-color: #6F2DA8; } }
+    background-color: #AD0E39;
+    color: #AD0E39;
+    border-color: #AD0E39; } }
 @keyframes Answer-colorize {
   from {
-    background-color: #F3E7D3;
-    color: #1F2937; }
+    background-color: #ffe6bb;
+    color: #091E22; }
   to {
-    background-color: #6F2DA8;
-    border-color: #6F2DA8;
-    color: #6F2DA8; } }
+    background-color: #AD0E39;
+    border-color: #AD0E39;
+    color: #AD0E39; } }
 @media (orientation: portrait) {
   #quotes_container {
     position: absolute;

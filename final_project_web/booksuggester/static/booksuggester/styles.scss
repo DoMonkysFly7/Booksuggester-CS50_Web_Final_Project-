@@ -8,16 +8,15 @@ $poppins-font: 'Poppins';
 
 // Colors (Used interchangeably  if necessary):
 $font-color-1: #FFFFFF;
-$font-color-2: #E5E7EB;
+$font-color-2: #fdefd7;  
 $font-color-3: #A6CBE2;
 
-$back-color-1: #CB3C61;
+$back-color-1: #AD0E39;
 $back-color-2: #4A3163;
-$back-color-3: #1F2937;
+$back-color-3: #593903;
 $back-color-4: #494848;
 $back-color-5: #091E22;
-$back-color-6: #F3E7D3;
-$back-color-7: #6F2DA8;
+$back-color-6: #ffe6bb;
 
 // Copyright
 #copyright {
@@ -59,7 +58,7 @@ footer, header, #logo_container, #quotes_container{
 
 // Footer and header
 header, footer {
-    font-size: 12px;
+    font-size: 14px;
     font-family: $standard-font;
     position: fixed;
     width: 100%;
@@ -86,7 +85,7 @@ footer {
     width: 100%;
     bottom: 34px;
     background-color: $back-color-6;
-    color: $back-color-3;
+    color: $back-color-5;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -97,6 +96,7 @@ footer {
 
 #quotes_container.colorTransition {
     background-color: $back-color-3;
+    color: $back-color-3;
 }
 
 // Logo
@@ -123,8 +123,6 @@ footer {
 }
 
 // Questions and answers
-
-
 #answer_container, #question_container {
     display: flex;
     align-items: center;
@@ -140,14 +138,13 @@ footer {
 #question_container {
     justify-content: center;
     top: 100px;
-    // bottom: 0;
 }
 
 #answer, #question {
-    color: $back-color-3;
+    color: $back-color-5;
     background-color: $back-color-6;
-    font-size: 14px;
-    font-family: $standard-font;
+    font-size: 13px;
+    font-family: $poppins-font;
     font-weight: bold;
     border-radius: 12px;
     padding: 5px;
@@ -159,24 +156,30 @@ footer {
 #answer {
     height: 45px;
     width: 130px;
-    border: solid $back-color-3 2px;
-    border-width: 3px;
+    border: solid $back-color-3;
+    border-width: 2.6px;
+}
+
+#answer:hover {
+    background-color: #db6383;
+    color: $font-color-1;
 }
 
 #question {
-    height: 55px;
-    width: 190px;
-    border: solid $back-color-1 2px;
-    border-width: 3px;
+    height: 65px;
+    width: 220px;
+    border: solid $back-color-3;
+    border-width: 2.6px;
 }
 
+// Author's comments in response to some answers
 #auth_comments {
     color: $font-color-1;
     font-size: 20px;
-    position: fixed;
-    top: 100px;
-    font-family: $standard-font;
-    font-weight: bold;
+    position: absolute;
+    top: 65px;
+    font-family: $poppins-font;
+    font-weight: normal;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,12 +252,12 @@ footer {
 @keyframes Question-colorize {
     from {
         background-color: $back-color-6;
-        color: $back-color-3;
+        color: $back-color-5;
     }
     to {
-        background-color: $back-color-7;
-        color: $back-color-7;
-        border-color: $back-color-7;
+        background-color: $back-color-1;
+        color: $back-color-1;
+        border-color: $back-color-1;
         //Maybe
         // background-color: $back-color-6;
         // color: $back-color-1;
@@ -265,12 +268,12 @@ footer {
 @keyframes Answer-colorize {
     from {
         background-color: $back-color-6;
-        color: $back-color-3;
+        color: $back-color-5;
     }
     to {
-        background-color: $back-color-7;
-        border-color: $back-color-7;
-        color: $back-color-7;
+        background-color: $back-color-1;
+        border-color: $back-color-1;
+        color: $back-color-1;
         //Maybe
         // background-color: $back-color-3;
         // border-color: $back-color-1;
