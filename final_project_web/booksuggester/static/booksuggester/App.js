@@ -209,8 +209,10 @@ class App extends React.Component {
 
     render()
     {   
+        if(this.state.question_number === 5){
+           wait(4500).then(() => alert('Be careful what you say'));
+        }
 
-        console.log(this.state.books);
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
@@ -231,6 +233,9 @@ class App extends React.Component {
                     rand_auth_choice['description'] = rand_auth_choice['description'].value;
                 }
 
+                console.log(rand_auth_choice);
+                console.log(rand_final_choice);
+
                 return(
                     <div>
                             <h6>{rand_final_choice['title']}</h6>
@@ -243,6 +248,10 @@ class App extends React.Component {
                             <h6>{rand_auth_choice['author']}</h6>
                             <h6>{rand_auth_choice['description']}</h6>
                             <img src={rand_auth_choice['source_img']}/>
+
+                            <div>
+                            Data provided by OpenLibrary.org
+                            </div>
                     </div>
                 )
             } 
@@ -253,6 +262,10 @@ class App extends React.Component {
                         <h6>{rand_final_choice['author']}</h6>
                         <h6>{rand_final_choice['description']}</h6>
                         <img src={rand_final_choice['source_img']}/>
+
+                        <div>
+                            Data provided by OpenLibrary.org
+                        </div>
                 </div>
             )
         }
@@ -267,6 +280,10 @@ class App extends React.Component {
                 </div>
             </div>
         )}
+}
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 ReactDOM.render(<App />, document.querySelector('#app'));

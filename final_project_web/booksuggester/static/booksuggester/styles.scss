@@ -8,15 +8,17 @@ $poppins-font: 'Poppins';
 
 // Colors (Used interchangeably  if necessary):
 $font-color-1: #FFFFFF;
-$font-color-2: #fdefd7;  
+$font-color-2: #fcf3e5;  
 $font-color-3: #A6CBE2;
 
 $back-color-1: #AD0E39;
 $back-color-2: #4A3163;
-$back-color-3: #593903;
+$back-color-3: #4a3828;
+// $back-color-3: #371010;
+// $back-color-3: #A17562;
 $back-color-4: #494848;
 $back-color-5: #091E22;
-$back-color-6: #ffe6bb;
+$back-color-6: #ffeed2;
 
 // Copyright
 #copyright {
@@ -161,7 +163,7 @@ footer {
 }
 
 #answer:hover {
-    background-color: #db6383;
+    background-color: $back-color-1;
     color: $font-color-1;
 }
 
@@ -293,7 +295,7 @@ footer {
 {
 
     #app {
-        top: 125px;
+        top: 200px;
     }
 
     footer, header {
@@ -313,10 +315,28 @@ footer {
         height: 330px;
     }
 
+    #logo {
+        width: 650px;
+        height: 650px;
+    }
+
+    #auth_comments {
+        font-size: 40px;
+        padding-top: 38px;
+    }
+
     #question, #answer {
-        font-size: 25px;
-        width: 220px;
-        height: 180px;
+        font-size: 26px;
+    }
+
+    #answer {
+        width: 250px;
+        height: 100px;
+    }
+
+    #question {
+        width: 370px;
+        height: 130px;
     }
 
     #quotes_container {
@@ -325,6 +345,7 @@ footer {
 
     #quotes {
         font-size: 30px;
+        text-align: center;
     }
 }
 

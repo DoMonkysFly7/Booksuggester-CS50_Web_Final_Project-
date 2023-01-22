@@ -9,7 +9,7 @@
   transform: translate(-50%, -50%); }
 
 body {
-  background-color: #fdefd7;
+  background-color: #fcf3e5;
   margin: 0px;
   zoom: 125%;
   max-zoom: 125%; }
@@ -44,13 +44,13 @@ header {
 
 footer {
   bottom: 0;
-  background-color: #593903; }
+  background-color: #4a3828; }
 
 #quotes_container {
   position: fixed;
   width: 100%;
   bottom: 34px;
-  background-color: #ffe6bb;
+  background-color: #ffeed2;
   color: #091E22;
   height: 200px;
   display: flex;
@@ -60,14 +60,14 @@ footer {
   font-family: "Poppins"; }
 
 #quotes_container.colorTransition {
-  background-color: #593903;
-  color: #593903; }
+  background-color: #4a3828;
+  color: #4a3828; }
 
 #logo_container {
   display: flex;
   justify-content: center;
   align-content: center;
-  background-color: #ffe6bb;
+  background-color: #ffeed2;
   text-align: center;
   height: 200px;
   position: relative;
@@ -98,7 +98,7 @@ footer {
 
 #answer, #question {
   color: #091E22;
-  background-color: #ffe6bb;
+  background-color: #ffeed2;
   font-size: 13px;
   font-family: "Poppins";
   font-weight: bold;
@@ -111,17 +111,17 @@ footer {
 #answer {
   height: 45px;
   width: 130px;
-  border: solid #593903;
+  border: solid #4a3828;
   border-width: 2.6px; }
 
 #answer:hover {
-  background-color: #db6383;
+  background-color: #AD0E39;
   color: #FFFFFF; }
 
 #question {
   height: 65px;
   width: 220px;
-  border: solid #593903;
+  border: solid #4a3828;
   border-width: 2.6px; }
 
 #auth_comments {
@@ -174,7 +174,7 @@ footer {
     transform: translateX(-400%); } }
 @keyframes Question-colorize {
   from {
-    background-color: #ffe6bb;
+    background-color: #ffeed2;
     color: #091E22; }
   to {
     background-color: #AD0E39;
@@ -182,7 +182,7 @@ footer {
     border-color: #AD0E39; } }
 @keyframes Answer-colorize {
   from {
-    background-color: #ffe6bb;
+    background-color: #ffeed2;
     color: #091E22; }
   to {
     background-color: #AD0E39;
@@ -194,7 +194,7 @@ footer {
     bottom: -100px; } }
 @media (orientation: portrait) and (max-device-width: 414px) {
   #app {
-    top: 125px; }
+    top: 200px; }
 
   footer, header {
     font-size: 23px; }
@@ -209,16 +209,31 @@ footer {
   #logo_container {
     height: 330px; }
 
+  #logo {
+    width: 650px;
+    height: 650px; }
+
+  #auth_comments {
+    font-size: 40px;
+    padding-top: 38px; }
+
   #question, #answer {
-    font-size: 25px;
-    width: 220px;
-    height: 180px; }
+    font-size: 26px; }
+
+  #answer {
+    width: 250px;
+    height: 100px; }
+
+  #question {
+    width: 370px;
+    height: 130px; }
 
   #quotes_container {
     height: 330px; }
 
   #quotes {
-    font-size: 30px; } }
+    font-size: 30px;
+    text-align: center; } }
 @media only screen and (max-device-height: 1000px) {
   #app {
     position: relative;
