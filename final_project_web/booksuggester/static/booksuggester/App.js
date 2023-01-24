@@ -53,12 +53,14 @@ class App extends React.Component {
                 suggestions: [],
                 books: [],
 
-                 questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?"],
+                questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
+                "Historical human suffering?"],
 
-                 answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
+                answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
                 {written:"I hate her/him", hidden:"political_science", quote:"We should grab a beer sometime."},{written:"Idk", hidden:"-"},{written:"Don't think so", hidden:"-"},{written:"Of coursely.",hidden:"young_adult_fiction",
                 quote:"U cool"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-"},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
-                ,{written: "", hidden:"-"},{written: "", hidden:"-"}],
+                {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
+                quote:":("}, {written: "", hidden:"-"},{written: "", hidden:"-"}],
 
                 // questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
                 // "Historical human suffering?","You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
@@ -137,7 +139,6 @@ class App extends React.Component {
                 }
                 if(answer.written === written_answer && answer.hidden !== '-'){
                     const subject = answer.hidden;
-                    // console.log(subject);
                     let temp = [{"":""}];
                     fetch(`https://openlibrary.org/subjects/${subject}.json?limit=${limit}`)
                     .then(res => res.json())
@@ -146,7 +147,6 @@ class App extends React.Component {
                             fetch(`https://openlibrary.org${book['key']}.json`)
                             .then(response => response.json())
                             .then(book => {
-                                // console.log(book['subject_times']);
                                 let description = book['description'];
                                 const author_array = book['authors'][0];
                                 const author_key = author_array['author']['key'];
@@ -218,15 +218,21 @@ class App extends React.Component {
 
     render()
     {   
+        console.log(this.state.suggestions);
+
         // if(this.state.question_number === 5){
         //    wait(4500).then(() => alert('Be careful what you say'));
         // }
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
-        if(this.state.questions[this.state.question_number] === undefined && this.state.books.length !== 0){
+        if(this.state.questions[this.state.question_number] === undefined){
             const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             let rand_final_choice = this.state.books[get_final_random];
+
+            if(rand_final_choice['description']['value']){
+                rand_final_choice['description'] = rand_final_choice['description']['value'];
+            } 
 
             //final stylization
             document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
@@ -235,52 +241,46 @@ class App extends React.Component {
             document.querySelector('header').style.display = 'none';
             document.querySelector('#auth_comments').style.top = "125px";
 
-            if(rand_final_choice['description']['value']){
-                rand_final_choice['description'] = rand_final_choice['description']['value'];
-            } 
+            console.log(rand_final_choice);
 
             if(this.state.suggestions[0] !== undefined){
+                console.log('starting auth choice...');
                 const get_final_random_auth_choice = Math.floor(Math.random()*10); // Rand between 0-9
                 let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
-                if(rand_auth_choice['description']['value']){
-                    rand_auth_choice['description'] = rand_auth_choice['description']['value'];
-                    console.log(rand_auth_choice['description']);
-                } 
-                console.log(rand_auth_choice['description']);
+
+                console.log(rand_auth_choice);
+                console.log(this.state.suggestions[0]);
 
                 return(
-                <div id="final_render_2">
-                        <div class="buttons">
-                            <button id="another">Another</button>
-                            <button id="restart">Restart</button>
-                        </div>
-                            <h1 id="rand_final_choice_title">{rand_final_choice['title']}</h1>
-                            <h2 id="rand_final_choice_author">{rand_final_choice['author']}</h2>
-                            <h4 id="rand_final_chocice_description">{rand_final_choice['description']}</h4>
-                            <img id="rand_final_choice_img" src={rand_final_choice['source_img']}/>
+                    <div id="final_render_2">
+                            <div class="buttons">
+                                <button id="another">Another</button>
+                                <button id="restart">Restart</button>
+                            </div>
+                                <h1 id="rand_final_choice_title">{rand_final_choice['title']}</h1>
+                                <h2 id="rand_final_choice_author">{rand_final_choice['author']}</h2>
+                                <h4 id="rand_final_chocice_description">{rand_final_choice['description']}</h4>
+
+                                <h3 id="rand_auth_choice_author">{rand_auth_choice['author']}</h3>
+                                <h5 id="rand_auth_choice_description">{rand_auth_choice['description']}</h5>
+                                <img id="rand_auth_choice_img" src={rand_auth_choice['source_img']}/>
     
-                            <div id="suggestions_title">One of author's suggestions:</div>
-                            <h2 id="rand_auth_choice_title">{rand_auth_choice['title']}</h2>
-                            <h3 id="rand_auth_choice_author">{rand_auth_choice['author']}</h3>
-                            <h5 id="rand_auth_choice_description">{rand_auth_choice['description']}</h5>
-                            <img id="rand_auth_choice_img" src={rand_auth_choice['source_img']}/>
-                            <hr/>
-                            <h6 id="credit">Data provided by OpenLibrary.org</h6>
-                    </div>
-                )
-            } 
-            console.log(rand_final_choice['description']);
+                                <hr/>
+                                <h6 id="credit">Data provided by OpenLibrary.org</h6>
+                        </div>
+            )} 
             return(
                 <div id="final_render_1">
                     <div class="buttons">
                         <button id="another">Another</button>
                         <button id="restart">Restart</button>
                     </div>
+                    <hr/>
                         <h2 id="rand_final_choice_title">{rand_final_choice['title']}</h2>
                         <h6 id="rand_final_choice_author"> by {rand_final_choice['author']}</h6>
                         <h6 id="rand_final_chocice_description">{rand_final_choice['description']}</h6>
                         <img id="rand_final_choice_img" alt="Book cover img" src={rand_final_choice['source_img']}/>
-                        <hr/>
+                    <hr/>
                         <h6 id="credit">Data provided by OpenLibrary.org</h6>
                 </div>
             )

@@ -154,6 +154,11 @@ footer {
   padding-top: 15px;
   animation: transitionIn 1.3s 2.5s ease-in-out; }
 
+#rand_final_chocice_description {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 20px; }
+
 #another, #restart {
   background-color: #ffeed2;
   height: 50px;
@@ -166,11 +171,6 @@ footer {
   padding: 10px;
   margin: 10px; }
 
-#rand_final_chocice_description {
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-bottom: 20px; }
-
 #credit {
   color: #000;
   color: rgba(0, 0, 0, 0.5);
@@ -180,9 +180,8 @@ hr {
   background-color: #000;
   background-color: rgba(0, 0, 0, 0.5);
   width: 85px;
-  height: 2px;
-  margin-top: 15px;
-  padding-bottom: 10px; }
+  height: 1px;
+  margin-top: 15px; }
 
 @keyframes QuestionReappear {
   0% {
