@@ -224,7 +224,7 @@ class App extends React.Component {
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
-        if(this.state.questions[this.state.question_number] === undefined){
+        if(this.state.questions[this.state.question_number] === undefined && this.state.books.length !== 0){
             const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             let rand_final_choice = this.state.books[get_final_random];
 
@@ -233,6 +233,7 @@ class App extends React.Component {
             document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
             document.querySelector('#quotes_container').style.position = 'fixed';
             document.querySelector('header').style.display = 'none';
+            document.querySelector('#auth_comments').style.top = "125px";
 
             if(rand_final_choice['description']['value']){
                 rand_final_choice['description'] = rand_final_choice['description']['value'];
@@ -243,9 +244,16 @@ class App extends React.Component {
                 let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
                 if(rand_auth_choice['description']['value']){
                     rand_auth_choice['description'] = rand_auth_choice['description']['value'];
+                    console.log(rand_auth_choice['description']);
                 } 
+                console.log(rand_auth_choice['description']);
+
                 return(
                 <div id="final_render_2">
+                        <div class="buttons">
+                            <button id="another">Another</button>
+                            <button id="restart">Restart</button>
+                        </div>
                             <h1 id="rand_final_choice_title">{rand_final_choice['title']}</h1>
                             <h2 id="rand_final_choice_author">{rand_final_choice['author']}</h2>
                             <h4 id="rand_final_chocice_description">{rand_final_choice['description']}</h4>
@@ -256,7 +264,7 @@ class App extends React.Component {
                             <h3 id="rand_auth_choice_author">{rand_auth_choice['author']}</h3>
                             <h5 id="rand_auth_choice_description">{rand_auth_choice['description']}</h5>
                             <img id="rand_auth_choice_img" src={rand_auth_choice['source_img']}/>
-
+                            <hr/>
                             <h6 id="credit">Data provided by OpenLibrary.org</h6>
                     </div>
                 )
@@ -264,14 +272,15 @@ class App extends React.Component {
             console.log(rand_final_choice['description']);
             return(
                 <div id="final_render_1">
-                        <h4 id="rand_final_choice_title">{rand_final_choice['title']}</h4>
-                        <h5 id="rand_final_choice_author"> by {rand_final_choice['author']}</h5>
+                    <div class="buttons">
+                        <button id="another">Another</button>
+                        <button id="restart">Restart</button>
+                    </div>
+                        <h2 id="rand_final_choice_title">{rand_final_choice['title']}</h2>
+                        <h6 id="rand_final_choice_author"> by {rand_final_choice['author']}</h6>
                         <h6 id="rand_final_chocice_description">{rand_final_choice['description']}</h6>
-                        <div>
-                            <img id="rand_final_choice_img" src={rand_final_choice['source_img']}/>
-                            <button id="another"> Another? </button>
-                            <button id="restart"> Restart </button>
-                        </div>
+                        <img id="rand_final_choice_img" alt="Book cover img" src={rand_final_choice['source_img']}/>
+                        <hr/>
                         <h6 id="credit">Data provided by OpenLibrary.org</h6>
                 </div>
             )
