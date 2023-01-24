@@ -162,7 +162,7 @@ footer {
     border-width: 2.6px;
 }
 
-#answer:hover {
+#answer:hover, #another:hover, #restart:hover {
     background-color: $back-color-1;
     color: $font-color-1;
 }
@@ -185,6 +185,54 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+// Final render_1
+#final_render_1 > * {
+    font-family: $poppins-font;
+    color: $back-color-5;
+    text-align: center;
+    position: relative;
+    bottom: 60px;
+}
+
+#another, #restart {
+    background-color: $back-color-6;
+    height: 40px; 
+    width: 60px;
+    color: $back-color-5;
+    font-size: 10px;
+    font-family: $poppins-font;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 5px;
+    position: relative;
+}
+
+#another{
+    top: 50px;
+}
+
+#restart{
+    top: 100px;
+}
+
+#rand_final_chocice_description {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+}
+
+#rand_final_choice_img {
+    padding-left: 20px;
+    margin-right: 30px;
+}
+
+#credit {
+    padding-top: 20px;
+    color: #000; /* Fallback for older browsers */
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: underline;
 }
 
 // Animations:
@@ -260,10 +308,6 @@ footer {
         background-color: $back-color-1;
         color: $back-color-1;
         border-color: $back-color-1;
-        //Maybe
-        // background-color: $back-color-6;
-        // color: $back-color-1;
-        // border-color: $back-color-3;
     }
 }
 
@@ -276,9 +320,42 @@ footer {
         background-color: $back-color-1;
         border-color: $back-color-1;
         color: $back-color-1;
-        //Maybe
-        // background-color: $back-color-3;
-        // border-color: $back-color-1;
+    }
+}
+
+@keyframes LogoContainer_final {
+    20% {
+        transform: translateY(-120px);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-120px);
+    }
+    80% {
+        transform: translateY(-60px);
+    }
+    100% {
+        transform: translateY(-120px);
+    }
+}
+
+@keyframes QuotesContainer_final {
+    20% {
+        transform: translateY(120px);
+    }
+    40% {
+        transform: translateY(30px);
+    }
+    60% {
+        transform: translateY(120px);
+    }
+    80% {
+        transform: translateY(60px);
+    }
+    100% {
+        transform: translateY(120px);
     }
 }
 
@@ -293,7 +370,6 @@ footer {
 // Phones
 @media (orientation: portrait) and (max-device-width: 414px)
 {
-
     #app {
         top: 200px;
     }
@@ -355,38 +431,20 @@ footer {
         position: relative;
         bottom: 50px;
     }
-        
     #quotes_container {
         position: absolute;
         bottom: -80px;
     }
-
     #question {
         position: relative;
         top: 45px;
     }
-
     #quotes {
         position: relative;
         bottom: 15px;
     }
-
     #answer_container {
         top: 165px;
     }
 }
  
-
-// Flex:
-// align-items (vertically) - reverse when flex-direction is a column
-// justify-content (horizontally) - reverse when flex-direction is a column
-// flex-direction - defines the direction the items are placed in
-// order - we can decide the oder of the items ourselves, by default, each has a value of '0'
-// align-self - can be applied to individual items, accepts the same values as 'align-items' and its value for the specific item
-// flex-wrap - spread items around: 
-//                                  a) nowrap: every items is fit to a single line
-//                                  b) wrap: items wrap around to additional lines
-//                                  c) wrap-reverse: items wrap around to additional lines in reverse 
-// flex-direction and flex-wrap => flex-flow (as they are used so often together). Accepts the values of both properties separated by a space:
-// eg: flex-flow: row wrap = set rows and wrap them
-// align-content: determines the spaceing between lines (when there's only one line, it has no effect).

@@ -34,7 +34,6 @@ class App extends React.Component {
 
         current_list.forEach((api_call) => {
 
-
             // You can choose how many responses to accept
             fetch(`https://openlibrary.org/subjects/${api_call}.json?limit=3`)
             .then(res => res.json())
