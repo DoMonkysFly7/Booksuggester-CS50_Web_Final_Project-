@@ -71,10 +71,10 @@ class App extends React.Component {
                 // quote:"U cool"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-"},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
                 // {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
                 // quote:":("},{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
-                // {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my boy!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
+                // {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my man!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
                 // {written:"AMEN BRO!",hidden:"religion",quote:"Chilllll..."},{written:"I am my own God!", hidden:"-"},
                 // {written:"Dosto!", hidden:"classics"},{written:"My Harriet babe!",hidden:"-",quote:"Pls never contact me"},{written:"Obviously", hidden:"psychoanalysis"},{written:"Who?", hidden:"-",
-                // quote:"Bro..."},{written:"Mkay",hidden:"poetry",quote:"That's a good boy-girl!"},{written:"No ty", hidden:"-"},{written:"Yes!!!", hidden:"play"},{written:"Nein", hidden:"-",
+                // quote:"Bro..."},{written:"Mkay",hidden:"poetry",quote:"k Eminescu!"},{written:"No ty", hidden:"-"},{written:"Yes!!!", hidden:"play"},{written:"Nein", hidden:"-",
                 // quote:"Missing out really"},{written:"Always",hidden:"society",quote:"Check out the anime 'Psycho-Pass'"},{written:"Yeahhh right",hidden:"-",quote:"Not like ur part of it"},
                 // {written:"That I am!",hidden:"art_history",quote:"Only an art student would care about art history really",},{written:"God no",hidden:"-",quote:"So you are normal then"},
                 // {written:"Man yes...",hidden:"short_stories",quote:"You sure don't got time for that, TikTok awaits"},{written:"I like them",hidden:"-",quote:"U want a prize or smth?"},{written:"Please no!",
@@ -122,6 +122,7 @@ class App extends React.Component {
                     .then(result => {
                         const author = result['personal_name'];
                         author_choice_temp.push({title,author,description,source_img});
+                        console.log({title,author,description,source_img});
                     })
                     .catch(error => {
                         console.log(error);
@@ -218,8 +219,6 @@ class App extends React.Component {
 
     render()
     {   
-        console.log(this.state.suggestions);
-
         // if(this.state.question_number === 5){
         //    wait(4500).then(() => alert('Be careful what you say'));
         // }
@@ -229,46 +228,63 @@ class App extends React.Component {
         if(this.state.questions[this.state.question_number] === undefined){
             const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             let rand_final_choice = this.state.books[get_final_random];
+            console.log(rand_final_choice);
 
             if(rand_final_choice['description']['value']){
                 rand_final_choice['description'] = rand_final_choice['description']['value'];
             } 
 
+            
             //final stylization
             document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
-            document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
             document.querySelector('#quotes_container').style.position = 'fixed';
             document.querySelector('header').style.display = 'none';
             document.querySelector('#auth_comments').style.top = "125px";
 
-            console.log(rand_final_choice);
-
             if(this.state.suggestions[0] !== undefined){
-                console.log('starting auth choice...');
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
                 const get_final_random_auth_choice = Math.floor(Math.random()*10); // Rand between 0-9
                 let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
 
                 console.log(rand_auth_choice);
-                console.log(this.state.suggestions[0]);
+                console.log(rand_final_choice);
+                //specific/easily verifiable case
+                if(rand_auth_choice['title'] === rand_final_choice['title']){
+                    rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; // select another randomly if they coincide
+                }
 
+                if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
+                    rand_auth_choice['description'] = rand_auth_choice['description']['value'];
+                    console.log('after: ' + rand_auth_choice['description']);
+                } 
                 return(
-                    <div id="final_render_2">
-                            <div class="buttons">
-                                <button id="another">Another</button>
-                                <button id="restart">Restart</button>
+                    <div style={{animation: "transitionIn 2.5s ease-in-out"}}>
+                        <div id="final_render2" style={{animation: "none"}}>
+                            <div class="pair-1" style={{animation: "none"}}> 
+                                <h2 id="rand_final_choice_title2">{rand_final_choice['title']}</h2>
+                                <h6 id="rand_final_choice_author2">by {rand_final_choice['author']}</h6>
+                                <h6 id="rand_final_choice_description2">{rand_final_choice['description']}</h6>
+                                <img id="rand_final_choice_img2" alt="Book cover img" src={rand_final_choice['source_img']}/>
                             </div>
-                                <h1 id="rand_final_choice_title">{rand_final_choice['title']}</h1>
-                                <h2 id="rand_final_choice_author">{rand_final_choice['author']}</h2>
-                                <h4 id="rand_final_chocice_description">{rand_final_choice['description']}</h4>
-
-                                <h3 id="rand_auth_choice_author">{rand_auth_choice['author']}</h3>
-                                <h5 id="rand_auth_choice_description">{rand_auth_choice['description']}</h5>
-                                <img id="rand_auth_choice_img" src={rand_auth_choice['source_img']}/>
-    
-                                <hr/>
-                                <h6 id="credit">Data provided by OpenLibrary.org</h6>
+                            <div class="pair-2" style={{animation: "none"}}>
+                                <h2 id="auth_suggestion_header"> The Author's suggestion: </h2>
+                                <h2 id="rand_auth_choice_title">{rand_auth_choice['title']}</h2>
+                                <h6 id="rand_auth_choice_author">by {rand_auth_choice['author']}</h6>
+                                <h6 id="rand_auth_choice_description">{rand_auth_choice['description']}</h6>
+                                <img id="rand_auth_choice_img" alt="Book cover img" src={rand_auth_choice['source_img']}/>
+                            </div>
                         </div>
+                        <div style={{animation: "none"}}>
+                            <hr/>
+                        <h6 id="credit" style={{textAlign: "center", animation:"none"}}>Data provided by OpenLibrary.org</h6>
+                        <div class="buttons2" style={{animation: "none"}}>
+                            <button id="another">Another</button>
+                            <button id="restart">Restart</button>
+                        </div>
+                    </div>
+                </div>
             )} 
+            document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
             return(
                 <div id="final_render_1">
                     <div class="buttons">
@@ -276,12 +292,12 @@ class App extends React.Component {
                         <button id="restart">Restart</button>
                     </div>
                     <hr/>
+                    <h6 id="credit">Data provided by OpenLibrary.org</h6>
+                    <hr/>
                         <h2 id="rand_final_choice_title">{rand_final_choice['title']}</h2>
                         <h6 id="rand_final_choice_author"> by {rand_final_choice['author']}</h6>
-                        <h6 id="rand_final_chocice_description">{rand_final_choice['description']}</h6>
+                        <h6 id="rand_final_choice_description">{rand_final_choice['description']}</h6>
                         <img id="rand_final_choice_img" alt="Book cover img" src={rand_final_choice['source_img']}/>
-                    <hr/>
-                        <h6 id="credit">Data provided by OpenLibrary.org</h6>
                 </div>
             )
         }
