@@ -107,35 +107,13 @@ class App extends React.Component {
             const quote = 'I am flattered';
             this.Auth_comment(quote);
             author_choices.forEach(workitem => {
-                fetch(`https://openlibrary.org/${workitem}.json`)
-                .then(response => response.json())
-                .then(book => {
-                    let description = book['description'];
-                    const author_array = book['authors'][0];
-                    const author_key = author_array['author']['key'];
-                    const cover_id = book['covers'][0];
-                    const title = book['title'];
-                    const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-                    
-                    fetch(`https://openlibrary.org${author_key}.json`)
-                    .then(response => response.json())
-                    .then(result => {
-                        const author = result['personal_name'];
-                        author_choice_temp.push({title,author,description,source_img});
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+                getDataAuthChoice(`https://openlibrary.org/${workitem}.json`);       
             })
             this.state.suggestions.push(author_choice_temp);
         } else {
             this.state.answers.forEach((answer) => {
                 if(answer.written === written_answer && answer.quote !== undefined) {
-                    this,this.Auth_comment(answer.quote);
+                    this.Auth_comment(answer.quote);
                 }
                 if(answer.written === written_answer && answer.hidden !== '-'){
                     const subject = answer.hidden;
@@ -403,6 +381,59 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function getDataRandChoice(url) {
+    console.log('in progress');
+}
+
+function getDataAuthChoice(url) {
+    if (localStorage.getItem(url)) {
+        const book = JSON.parse(localStorage.getItem(url));
+        let description = book['description'];
+        const author_array = book['authors'][0];
+        const author_key = author_array['author']['key'];
+        const cover_id = book['covers'][0];
+        const title = book['title'];
+        const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
+
+        const url2 = `https://openlibrary.org${author_key}.json`;
+
+        const result = JSON.parse(localStorage.getItem(url2));
+        const author = result['personal_name'];
+        author_choice_temp.push({title,author,description,source_img});
+
+        console.log("Data fetched from cache.");
+        return;
+    }
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem(url, JSON.stringify(data));
+            const book = data;
+            let description = book['description'];
+            const author_array = book['authors'][0];
+            const author_key = author_array['author']['key'];
+            const cover_id = book['covers'][0];
+            const title = book['title'];
+            const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
+           
+            const url2 = `https://openlibrary.org${author_key}.json`;
+
+            fetch(url2)
+            .then(response => response.json())
+            .then(result => {
+                localStorage.setItem(url2, JSON.stringify(result));
+                const author = result['personal_name'];
+                author_choice_temp.push({title,author,description,source_img});
+            })
+            .catch(err => {
+                console.log(err);
+                return;
+            })
+            
+            console.log('Data fetched from API');
+        }
+    );
+}
 ReactDOM.render(<App />, document.querySelector('#app'));
 
 
