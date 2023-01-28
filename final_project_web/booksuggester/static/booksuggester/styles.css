@@ -165,7 +165,7 @@ footer {
   margin-top: 0px;
   padding-top: 0px;
   position: relative;
-  bottom: 75px;
+  bottom: 45px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -189,7 +189,7 @@ footer {
 .buttons2 {
   display: flex;
   justify-content: center;
-  padding-bottom: 80px; }
+  padding-bottom: 60px; }
 
 #rand_final_choice_author2, #rand_auth_choice_author, #rand_final_choice_description2, #rand_auth_choice_description {
   margin-top: 0px;
@@ -320,6 +320,10 @@ hr {
     transform: translateY(100px); }
   100% {
     transform: translateY(200px); } }
+@media (orientation: portrait) {
+  #quotes_container {
+    position: absolute;
+    bottom: -100px; } }
 @media (orientation: portrait) and (max-device-width: 414px) {
   #app {
     top: 20px; }

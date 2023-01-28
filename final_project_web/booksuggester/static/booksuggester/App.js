@@ -122,7 +122,6 @@ class App extends React.Component {
                     .then(result => {
                         const author = result['personal_name'];
                         author_choice_temp.push({title,author,description,source_img});
-                        console.log({title,author,description,source_img});
                     })
                     .catch(error => {
                         console.log(error);
@@ -217,6 +216,85 @@ class App extends React.Component {
         document.querySelector('#auth_comments').style.animation = 'none';
     }
 
+    restartMethod = () => {
+        window.location.reload();
+    }
+
+    anotherMethod = () => {
+        document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s reverse forwards';
+        document.querySelector('header').style.display = 'block';
+        document.querySelector('header').style.textAlign = 'center';
+        document.querySelector('header').style.animation = 'none';
+        document.querySelector('header').innerHTML = 'Re-choosing randomly from your personal pool';
+        document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s reverse forwards';
+        document.querySelector('footer').innerHTML = 'Loading...';
+        document.querySelector('#app').style.display = 'none';
+
+        const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
+        let rand_final_choice = this.state.books[get_final_random];
+        
+        if(rand_final_choice['description'] === undefined) {
+            rand_final_choice['description'] = '';
+        }
+
+        if(rand_final_choice['description']['value']){
+            rand_final_choice['description'] = rand_final_choice['description']['value'];
+        };
+
+        console.log(get_final_random);
+
+        if(this.state.suggestions[0] !== undefined){
+            console.log(this.state.books);
+            console.log(this.state.suggestions);
+
+            const get_final_random_auth_choice = Math.floor(Math.random()*10); 
+            console.log(get_final_random_auth_choice);
+            let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
+            if(rand_auth_choice['title'] === rand_final_choice['title']){
+                rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; 
+            }
+
+            if(rand_auth_choice['description'] === undefined) {
+                rand_auth_choice['description'] = '';
+            }
+
+            if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
+                rand_auth_choice['description'] = rand_auth_choice['description']['value'];
+            } 
+            wait(2000).then(() => {
+                document.querySelector('#app').style.display = 'block';
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
+                document.querySelector('footer').innerHTML = "<a id='copyright'>&copy;</a> Booksuggester's Author ";
+
+                document.querySelector('#rand_final_choice_title2').innerHTML = `${rand_final_choice['title']}`;
+                document.querySelector('#rand_final_choice_author2').innerHTML = `by ${rand_final_choice['author']}`;
+                document.querySelector('#rand_final_choice_description2').innerHTML = `${rand_final_choice['description']}`;
+                document.querySelector('#rand_final_choice_img2').src = `${rand_final_choice['source_img']}`;
+
+                document.querySelector('#rand_auth_choice_title').innerHTML = `${rand_auth_choice['title']}`;
+                document.querySelector('#rand_auth_choice_author').innerHTML = `by ${rand_auth_choice['author']}`;
+                document.querySelector('#rand_auth_choice_description').innerHTML = `${rand_auth_choice['description']}`;
+                document.querySelector('#rand_auth_choice_img').src = `${rand_auth_choice['source_img']}`;
+            })
+        } else {
+            console.log(this.state.books);
+            wait(2000).then(() => {
+                document.querySelector('#app').style.display = 'block';
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
+                document.querySelector('footer').innerHTML = "<a id='copyright'>&copy;</a> Booksuggester's Author ";
+
+                document.querySelector('#rand_final_choice_title').innerHTML = `${rand_final_choice['title']}`;
+                document.querySelector('#rand_final_choice_author').innerHTML = `by ${rand_final_choice['author']}`;
+                document.querySelector('#rand_final_choice_description').innerHTML = `${rand_final_choice['description']}`;
+                document.querySelector('#rand_final_choice_img').src = `${rand_final_choice['source_img']}`;
+            })
+        }
+    }
+
     render()
     {   
         // if(this.state.question_number === 5){
@@ -230,10 +308,13 @@ class App extends React.Component {
             let rand_final_choice = this.state.books[get_final_random];
             console.log(rand_final_choice);
 
+            if(rand_final_choice['description'] === undefined) {
+                rand_final_choice['description'] = '';
+            }
+
             if(rand_final_choice['description']['value']){
                 rand_final_choice['description'] = rand_final_choice['description']['value'];
             } 
-
             
             //final stylization
             document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
@@ -251,6 +332,10 @@ class App extends React.Component {
                 //specific/easily verifiable case
                 if(rand_auth_choice['title'] === rand_final_choice['title']){
                     rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; // select another randomly if they coincide
+                }
+
+                if(rand_auth_choice['description'] === undefined) {
+                    rand_auth_choice['description'] = '';
                 }
 
                 if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
@@ -278,8 +363,8 @@ class App extends React.Component {
                             <hr/>
                         <h6 id="credit" style={{textAlign: "center", animation:"none"}}>Data provided by OpenLibrary.org</h6>
                         <div class="buttons2" style={{animation: "none"}}>
-                            <button id="another">Another</button>
-                            <button id="restart">Restart</button>
+                            <button id="another" onClick={(this.anotherMethod)}>Another</button>
+                            <button id="restart" onClick={(this.restartMethod)}>Restart</button>
                         </div>
                     </div>
                 </div>
@@ -288,8 +373,8 @@ class App extends React.Component {
             return(
                 <div id="final_render_1">
                     <div class="buttons">
-                        <button id="another">Another</button>
-                        <button id="restart">Restart</button>
+                        <button id="another" onClick={(this.anotherMethod)}>Another</button>
+                        <button id="restart" onClick={(this.restartMethod)}>Restart</button>
                     </div>
                     <hr/>
                     <h6 id="credit">Data provided by OpenLibrary.org</h6>
