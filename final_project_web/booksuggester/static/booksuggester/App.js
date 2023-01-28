@@ -118,40 +118,78 @@ class App extends React.Component {
                 if(answer.written === written_answer && answer.hidden !== '-'){
                     const subject = answer.hidden;
                     let temp = [{"":""}];
-                    fetch(`https://openlibrary.org/subjects/${subject}.json?limit=${limit}`)
-                    .then(res => res.json())
-                    .then(output => {
+                    const url = `https://openlibrary.org/subjects/${subject}.json?limit=${limit}`;
+
+                    if(localStorage.getItem(url)){
+                        const output = JSON.parse(localStorage.getItem(url));
                         output['works'].forEach((book) => {
-                            fetch(`https://openlibrary.org${book['key']}.json`)
-                            .then(response => response.json())
-                            .then(book => {
-                                let description = book['description'];
-                                const author_array = book['authors'][0];
-                                const author_key = author_array['author']['key'];
-                                const cover_id = book['covers'][0];
-                                const title = book['title'];
-                                const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
+                            const url2 = `https://openlibrary.org${book['key']}.json`;
+                            const answer = JSON.parse(localStorage.getItem(url2));
                             
-                                fetch(`https://openlibrary.org${author_key}.json`)
+                            let description = answer['description'];
+                            const author_array = answer['authors'][0];
+                            const author_key = author_array['author']['key'];
+
+                            let cover_id = answer['covers'] ? answer['covers'][0] : ""; 
+
+                            const title = answer['title'];
+                            const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg` 
+
+                            const url3 = `https://openlibrary.org${author_key}.json`;
+                            const result = JSON.parse(localStorage.getItem(url3));
+                            const author = result['personal_name'];
+                            temp.push({title,author,description,source_img});
+                            if(temp.length === limit){
+                                let get_random = Math.ceil(Math.random() * limit);
+                                if(temp[get_random] === undefined) {
+                                    this.state.books.push(temp[get_random - 1]);
+                                } else {
+                                    this.state.books.push(temp[get_random]);
+                                }
+                            }
+                        })
+                        console.log('Data fetched from cache (rand choice)');
+                        return;
+                    } else {
+                        fetch(url)
+                        .then(res => res.json())
+                        .then(output => {
+                            output['works'].forEach((book) => {
+                                localStorage.setItem(url, JSON.stringify(output));
+                                const url2 = `https://openlibrary.org${book['key']}.json`
+                                fetch(`https://openlibrary.org${book['key']}.json`)
                                 .then(response => response.json())
-                                .then(result => {
-                                    const author = result['personal_name'];
-                                    temp.push({title,author,description,source_img});
-                                    if(temp.length === limit){
-                                        let get_random = Math.ceil(Math.random() * limit);
-                                        if(temp[get_random] === undefined) {
-                                            this.state.books.push(temp[get_random - 1]);
-                                        } else {
-                                            this.state.books.push(temp[get_random]);
+                                .then(book => {
+                                    localStorage.setItem(url2, JSON.stringify(book));
+                                    let description = book['description'];
+                                    const author_array = book['authors'][0];
+                                    const author_key = author_array['author']['key'];
+    
+                                    let cover_id = book['covers'] ? book['covers'][0] : ""; 
+    
+                                    const title = book['title'];
+                                    const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg` 
+                                    
+                                    const url3 = `https://openlibrary.org${author_key}.json`;
+                                    fetch(`https://openlibrary.org${author_key}.json`)
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        localStorage.setItem(url3, JSON.stringify(result));
+                                        const author = result['personal_name'];
+                                        temp.push({title,author,description,source_img});
+                                        if(temp.length === limit){
+                                            let get_random = Math.ceil(Math.random() * limit);
+                                            if(temp[get_random] === undefined) {
+                                                this.state.books.push(temp[get_random - 1]);
+                                            } else {
+                                                this.state.books.push(temp[get_random]);
+                                            }
                                         }
-                                    }
+                                    })
                                 })
                             })
-                            .catch(error => {
-                                console.log(error);
-                            })
-                        })
-                    })
+                            console.log('Data fetched from API (rand choice)');
+                    })}
                 }
             })
         }
@@ -181,7 +219,7 @@ class App extends React.Component {
         answer.forEach(a => {
             a.style.animation = 'Answer-colorize 3.9s reverse';
         })
-        window.setTimeout(this.qReset, 3750);  // 3750 originally
+        window.setTimeout(this.qReset, 3750);
     }
 
     qReset = async () => {
@@ -278,13 +316,13 @@ class App extends React.Component {
         // if(this.state.question_number === 5){
         //    wait(4500).then(() => alert('Be careful what you say'));
         // }
+
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
 
         if(this.state.questions[this.state.question_number] === undefined){
             const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             let rand_final_choice = this.state.books[get_final_random];
-            console.log(rand_final_choice);
 
             if(rand_final_choice['description'] === undefined) {
                 rand_final_choice['description'] = '';
@@ -381,10 +419,6 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function getDataRandChoice(url) {
-    console.log('in progress');
-}
-
 function getDataAuthChoice(url) {
     if (localStorage.getItem(url)) {
         const book = JSON.parse(localStorage.getItem(url));
@@ -435,6 +469,5 @@ function getDataAuthChoice(url) {
     );
 }
 ReactDOM.render(<App />, document.querySelector('#app'));
-
 
 
