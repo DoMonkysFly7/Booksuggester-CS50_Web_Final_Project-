@@ -1,9 +1,7 @@
-// Disable CORS for these websites 
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://covers.openlibrary.org", true);
-xhr.open("GET", "https://openlibrary.org", true);
-xhr.setRequestHeader("Access-Control-Allow-Origin", "https://covers.openlibrary.org, https://openlibrary.org");
-xhr.send();
+// Disallow page to be displayed in a frame
+if (window.top !== window.self) {
+    window.top.location = window.self.location;
+  }
 const author_choices = ['works/OL166894W','works/OL102749W','works/OL20600W','works/OL1168083W','works/OL21164750W', 'works/OL1268413W','works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
 'works/OL16457776W'];
 //Order:"Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"// "The Trial", "The Book Thief", "Fahrenheit 451", "Petersburg Tales"
@@ -27,7 +25,7 @@ function getDataAuthChoice(url) {
         const result = JSON.parse(localStorage.getItem(url2));
         const author = result['personal_name'];
         author_choice_temp.push({title,author,description,source_img});
-        return console.log("Data fetched from cache.");
+        return;
     }
     return fetch(url)
         .then(response => response.json())
@@ -49,11 +47,6 @@ function getDataAuthChoice(url) {
                 const author = result['personal_name'];
                 author_choice_temp.push({title,author,description,source_img});
             })
-            .catch(err => {
-                console.log(err);
-                return;
-            })
-            console.log('Data fetched from API');
         }
     );
 }
@@ -178,7 +171,6 @@ class App extends React.Component {
                                 }
                             }
                         })
-                        console.log('Data fetched from cache (rand choice)');
                         return;
                     } else {
                         fetch(url)
@@ -218,7 +210,6 @@ class App extends React.Component {
                                     })
                                 })
                             })
-                            console.log('Data fetched from API (rand choice)');
                     })}
                 }
             })
@@ -290,7 +281,6 @@ class App extends React.Component {
 
         if(this.state.suggestions[0] !== undefined){
             const get_final_random_auth_choice = Math.floor(Math.random()*10); 
-            console.log(get_final_random_auth_choice);
             let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
             if(rand_auth_choice['title'] === rand_final_choice['title']){
                 rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; 

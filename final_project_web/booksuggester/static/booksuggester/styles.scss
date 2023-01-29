@@ -440,6 +440,10 @@ hr {
         font-size: 30px;
         text-align: center;
     }
+
+    #final_render_1 {
+        overflow-x: hidden;
+    }
 }
 // Smaller screens 
 @media only screen and (max-device-height: 1000px) {
