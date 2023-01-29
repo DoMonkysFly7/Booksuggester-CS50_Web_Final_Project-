@@ -1,18 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-#copyright {
-  margin-right: 3px; }
-
-#final {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); }
-
 body {
   background-color: #fcf3e5;
   margin: 0px;
   zoom: 125%;
   max-zoom: 125%; }
+
+#copyright {
+  margin-right: 3px; }
 
 html {
   max-width: 100%;
@@ -20,12 +14,6 @@ html {
 
 footer, header, #logo_container, #quotes_container {
   animation: transitionIn 1.0s ease-in-out; }
-
-#question_container {
-  animation: QuestionReappear 2.7s ease-in-out; }
-
-#answer {
-  animation: AnswerReappear 2.7s ease-in-out; }
 
 header, footer {
   font-size: 14px;
@@ -94,7 +82,8 @@ footer {
 
 #question_container {
   justify-content: center;
-  top: 100px; }
+  top: 100px;
+  animation: QuestionReappear 2.7s ease-in-out; }
 
 #answer, #question {
   color: #091E22;
@@ -112,7 +101,8 @@ footer {
   height: 45px;
   width: 130px;
   border: solid #4a3828;
-  border-width: 2.6px; }
+  border-width: 2.6px;
+  animation: AnswerReappear 2.7s ease-in-out; }
 
 #answer:hover, #another:hover, #restart:hover {
   background-color: #AD0E39;
@@ -161,7 +151,7 @@ footer {
   padding-right: 40px;
   padding-bottom: 20px; }
 
-#final_render2 {
+#final_render_2 {
   margin-top: 0px;
   padding-top: 0px;
   position: relative;
@@ -172,7 +162,8 @@ footer {
   justify-items: center;
   font-family: "Poppins";
   color: #091E22;
-  text-align: center; }
+  text-align: center;
+  overflow-x: hidden; }
 
 .pair-1, .pair-2 {
   display: grid;
@@ -191,12 +182,6 @@ footer {
   justify-content: center;
   padding-bottom: 60px; }
 
-#rand_final_choice_author2, #rand_auth_choice_author, #rand_final_choice_description2, #rand_auth_choice_description {
-  margin-top: 0px;
-  padding-top: 0px;
-  margin-bottom: 0px;
-  padding-bottom: 0px; }
-
 #rand_final_choice_author2, #rand_auth_choice_author {
   font-weight: bolder; }
 
@@ -206,10 +191,7 @@ footer {
   margin: 0 auto; }
 
 #rand_final_choice_title2, #rand_auth_choice_title {
-  margin-bottom: 4px;
-  margin-top: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px; }
+  margin-bottom: 4px; }
 
 #another, #restart {
   background-color: #ffeed2;
@@ -299,17 +281,6 @@ hr {
   100% {
     transform: translateY(-120px); } }
 @keyframes QuotesContainer_final {
-  20% {
-    transform: translateY(120px); }
-  40% {
-    transform: translateY(30px); }
-  60% {
-    transform: translateY(120px); }
-  80% {
-    transform: translateY(60px); }
-  100% {
-    transform: translateY(120px); } }
-@keyframes QuotesContainer_final2 {
   20% {
     transform: translateY(200px); }
   40% {

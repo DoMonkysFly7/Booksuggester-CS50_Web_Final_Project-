@@ -1,23 +1,67 @@
-// var xhr = new XMLHttpRequest();
-// xhr.open("GET", "http://example.com", true);
-// xhr.setRequestHeader("Access-Control-Allow-Origin", "http://example.com");
-// xhr.send();
-
-
+// Disable CORS for these websites 
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://covers.openlibrary.org", true);
+xhr.open("GET", "https://openlibrary.org", true);
+xhr.setRequestHeader("Access-Control-Allow-Origin", "https://covers.openlibrary.org, https://openlibrary.org");
+xhr.send();
 const author_choices = ['works/OL166894W','works/OL102749W','works/OL20600W','works/OL1168083W','works/OL21164750W', 'works/OL1268413W','works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
 'works/OL16457776W'];
 //Order:"Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"// "The Trial", "The Book Thief", "Fahrenheit 451", "Petersburg Tales"
-
 const author_choice_temp = [];
 const limit = 20;
 
-class Quotes extends React.Component {
+// Helpers 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+function getDataAuthChoice(url) {
+    if (localStorage.getItem(url)) {
+        const book = JSON.parse(localStorage.getItem(url));
+        let description = book['description'];
+        const author_array = book['authors'][0];
+        const author_key = author_array['author']['key'];
+        const title = book['title'];
+        const cover_id = localStorage.getItem(title);
+        const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
+        const url2 = `https://openlibrary.org${author_key}.json`;
+        const result = JSON.parse(localStorage.getItem(url2));
+        const author = result['personal_name'];
+        author_choice_temp.push({title,author,description,source_img});
+        return console.log("Data fetched from cache.");
+    }
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem(url, JSON.stringify(data));
+            const book = data;
+            let description = book['description'];
+            const author_array = book['authors'][0];
+            const author_key = author_array['author']['key'];
+            const cover_id = book['covers'][0];
+            const title = book['title'];
+            localStorage.setItem(title, cover_id);
+            const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
+            const url2 = `https://openlibrary.org${author_key}.json`;
+            fetch(url2)
+            .then(response => response.json())
+            .then(result => {
+                localStorage.setItem(url2, JSON.stringify(result));
+                const author = result['personal_name'];
+                author_choice_temp.push({title,author,description,source_img});
+            })
+            .catch(err => {
+                console.log(err);
+                return;
+            })
+            console.log('Data fetched from API');
+        }
+    );
+}
 
+class Quotes extends React.Component {
     constructor(props) {
         super(props);
-
         const get_random = Math.ceil(Math.random() * 15);
-
         this.state = {
             quotes: ["",
                     "“A reader lives a thousand lives before he dies...The man who never reads lives only one.” -George R.R Martin",
@@ -40,7 +84,6 @@ class Quotes extends React.Component {
             quotes_number: get_random,
         }
     }
-
     render() {
         return(
             <p id="quotes">
@@ -48,7 +91,6 @@ class Quotes extends React.Component {
             </p>
     )};
 }
-
 ReactDOM.render(<Quotes />, document.querySelector('#quotes_container'));
 
 class App extends React.Component {
@@ -58,52 +100,37 @@ class App extends React.Component {
                 question_number: 0,
                 suggestions: [],
                 books: [],
-
                 questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
-                "Historical human suffering?"],
-
+                "Historical human suffering?","You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
+                "You know Carl Jung?","Go recite poetry nerd","U go theater?","U think bout society'n stuff?","Ur an art student?","Long books are too long?","I give u bloody stories!",
+                "Ppl tlking bout themselves?"],
                 answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
                 {written:"I hate her/him", hidden:"political_science", quote:"We should grab a beer sometime."},{written:"Idk", hidden:"-"},{written:"Don't think so", hidden:"-"},{written:"Of coursely.",hidden:"young_adult_fiction",
                 quote:"U cool"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-"},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
                 {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
-                quote:":("}, {written: "", hidden:"-"},{written: "", hidden:"-"}],
-
-                // questions: ["This world sucks?","Be a spooky-fruity?","Who's your country's leader?","Ain't youth brains cool?","U listen to 'important' ppl?","Love me?","Where to travel?",
-                // "Historical human suffering?","You're kinda romantic, huh?","Like reading situations/ppl?","You like Berserk (manga)?","Ur God's cool?","Dostoevsky or Harry Styles?",
-                // "You know Carl Jung?","Go recite poetry nerd","U go theater?","U think bout society'n stuff?","Ur an art student?","Long books are too long?","I give u bloody stories!",
-                // "Ppl tlking bout themselves?"],
-                // answers: [{written:"Another one's cool", hidden:"magic"},{written:"I guess 'tis fine", hidden:"-", quote:"Really?"}, {written:"Banana!", hidden:"horror"},{written:"Neh", hidden:"-"},
-                // {written:"I hate her/him", hidden:"political_science", quote:"We should grab a beer sometime."},{written:"Idk", hidden:"-"},{written:"Don't think so", hidden:"-"},{written:"Of coursely.",hidden:"young_adult_fiction",
-                // quote:"U cool"},{written:"Indubitably", hidden:"biography"},{written:"Like who? Elon? =))", hidden:"-",quote:"=))"},{written:"I want ur babies!", hidden:"-"},{written:"MAY wnt ur babies",hidden:"-",quote:"What do you mean 'may'???"},
-                // {written:"The past", hidden:"history"},{written:"The future", hidden:"science_fiction"},{written:"Y!Y!F U TOO!",hidden:"world_war",quote:"<3"},{written:"Umm...no?",hidden:"-",
-                // quote:":("},{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
-                // {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my man!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
-                // {written:"AMEN BRO!",hidden:"religion",quote:"Chilllll..."},{written:"I am my own God!", hidden:"-"},
-                // {written:"Dosto!", hidden:"classics"},{written:"My Harriet babe!",hidden:"-",quote:"Pls never contact me"},{written:"Obviously", hidden:"psychoanalysis"},{written:"Who?", hidden:"-",
-                // quote:"Bro..."},{written:"Mkay",hidden:"poetry",quote:"k Eminescu!"},{written:"No ty", hidden:"-"},{written:"Yes!!!", hidden:"play"},{written:"Nein", hidden:"-",
-                // quote:"Missing out really"},{written:"Always",hidden:"society",quote:"Check out the anime 'Psycho-Pass'"},{written:"Yeahhh right",hidden:"-",quote:"Not like ur part of it"},
-                // {written:"That I am!",hidden:"art_history",quote:"Only an art student would care about art history really",},{written:"God no",hidden:"-",quote:"So you are normal then"},
-                // {written:"Man yes...",hidden:"short_stories",quote:"You sure don't got time for that, TikTok awaits"},{written:"I like them",hidden:"-",quote:"U want a prize or smth?"},{written:"Please no!",
-                // hidden:"historical_-_general",quote:"You're so fragile!"},{written:"YES!",hidden:"violence",quote:"Get help."},{written:"...Yes?",hidden:"autobiography",quote:"???"},{written:"Who cares??",
-                // hidden:"-",quote:"Indeed."}
-                // ,{written: "", hidden:"-"},{written: "", hidden:"-"}],
-
+                quote:":("},{written:"Yes", hidden:"romance"},{written:"No", hidden:"thriller"},{written:"Elementary.", hidden:"mystery_and_detective_stories"},{written:"Nope", hidden:"-"},
+                {written:"Indeed, struggler.", hidden:"dark_fantasy", quote:"That's my man!"},{written:"Was ist das?", hidden:"-",quote:"Why do u even exist"},
+                {written:"AMEN BRO!",hidden:"religion",quote:"Chilllll..."},{written:"I am my own God!", hidden:"-"},
+                {written:"Dosto!", hidden:"classics"},{written:"My Harriet babe!",hidden:"-",quote:"Pls never contact me"},{written:"Obviously", hidden:"psychoanalysis"},{written:"Who?", hidden:"-",
+                quote:"Bro..."},{written:"Mkay",hidden:"poetry",quote:"k Eminescu!"},{written:"No ty", hidden:"-"},{written:"Yes!!!", hidden:"play"},{written:"Nein", hidden:"-",
+                quote:"Missing out really"},{written:"Always",hidden:"society",quote:"Check out the anime 'Psycho-Pass'"},{written:"Yeahhh right",hidden:"-",quote:"Not like ur part of it"},
+                {written:"That I am!",hidden:"art_history",quote:"Only an art student would care about art history really",},{written:"God no",hidden:"-",quote:"So you are normal then"},
+                {written:"Man yes...",hidden:"short_stories",quote:"You sure don't got time for that, TikTok awaits"},{written:"I like them",hidden:"-",quote:"U want a prize or smth?"},{written:"Please no!",
+                hidden:"historical_-_general",quote:"You're so fragile!"},{written:"YES!",hidden:"violence",quote:"Get help."},{written:"...Yes?",hidden:"autobiography",quote:"???"},{written:"Who cares??",
+                hidden:"-",quote:"Indeed."},{written: "", hidden:"-"},{written: "", hidden:"-"}],
                 iter_number1: -2,
                 iter_number2: -1,
             }
         };
 
     changeQuestion = (event) => {
-
         let answer = event.target.innerHTML;
-
         this.setState(state => ({
             question_number: state.question_number + 1,
         }), this.questionTime(), this.ApiCalls(answer));
     }
 
     ApiCalls = (written_answer) => {
-
         if (written_answer === 'MAY wnt ur babies'){
             const quote = ':(';
             this.Auth_comment(quote);
@@ -136,12 +163,8 @@ class App extends React.Component {
                             const author_array = answer['authors'][0];
                             const author_key = author_array['author']['key'];
                             const title = answer['title'];
-
-                            // let cover_id = answer['covers'] ? answer['covers'][0] : ""; 
                             let cover_id = localStorage.getItem(title);
-                            
                             const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg` 
-
                             const url3 = `https://openlibrary.org${author_key}.json`;
                             const result = JSON.parse(localStorage.getItem(url3));
                             const author = result['personal_name'];
@@ -204,7 +227,6 @@ class App extends React.Component {
 
     Auth_comment = (comment) => {
         const element = document.querySelector('#auth_comments');
-
         element.innerHTML = `${comment}`;
         element.style.animation = 'transitionIn 1.5s ease-in-out, transitionIn 2.5s 1.5s ease-in-out reverse forwards';
     }
@@ -245,7 +267,6 @@ class App extends React.Component {
     restartMethod = () => {
         window.location.reload();
     }
-
     anotherMethod = () => {
         document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s reverse forwards';
         document.querySelector('header').style.display = 'block';
@@ -267,23 +288,16 @@ class App extends React.Component {
             rand_final_choice['description'] = rand_final_choice['description']['value'];
         };
 
-        console.log(get_final_random);
-
         if(this.state.suggestions[0] !== undefined){
-            console.log(this.state.books);
-            console.log(this.state.suggestions);
-
             const get_final_random_auth_choice = Math.floor(Math.random()*10); 
             console.log(get_final_random_auth_choice);
             let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
             if(rand_auth_choice['title'] === rand_final_choice['title']){
                 rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; 
             }
-
             if(rand_auth_choice['description'] === undefined) {
                 rand_auth_choice['description'] = '';
             }
-
             if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
                 rand_auth_choice['description'] = rand_auth_choice['description']['value'];
             } 
@@ -291,7 +305,7 @@ class App extends React.Component {
                 document.querySelector('#app').style.display = 'block';
                 document.querySelector('header').style.display = 'none';
                 document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
-                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
                 document.querySelector('footer').innerHTML = "<a id='copyright'>&copy;</a> Booksuggester's Author ";
 
                 document.querySelector('#rand_final_choice_title2').innerHTML = `${rand_final_choice['title']}`;
@@ -305,12 +319,11 @@ class App extends React.Component {
                 document.querySelector('#rand_auth_choice_img').src = `${rand_auth_choice['source_img']}`;
             })
         } else {
-            console.log(this.state.books);
             wait(2000).then(() => {
                 document.querySelector('#app').style.display = 'block';
                 document.querySelector('header').style.display = 'none';
                 document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
-                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
                 document.querySelector('footer').innerHTML = "<a id='copyright'>&copy;</a> Booksuggester's Author ";
 
                 document.querySelector('#rand_final_choice_title').innerHTML = `${rand_final_choice['title']}`;
@@ -320,16 +333,13 @@ class App extends React.Component {
             })
         }
     }
-
     render()
     {   
-        // if(this.state.question_number === 5){
-        //    wait(4500).then(() => alert('Be careful what you say'));
-        // }
-
+        if(this.state.question_number === 5){
+           wait(3800).then(() => alert('Be careful what you say'));
+        }
         this.state.iter_number1 += 2;
         this.state.iter_number2 += 2;
-
         if(this.state.questions[this.state.question_number] === undefined){
             const get_final_random = Math.ceil(Math.random() * this.state.books.length-1);
             let rand_final_choice = this.state.books[get_final_random];
@@ -341,7 +351,6 @@ class App extends React.Component {
             if(rand_final_choice['description']['value']){
                 rand_final_choice['description'] = rand_final_choice['description']['value'];
             } 
-            
             //final stylization
             document.querySelector('#logo_container').style.animation = 'LogoContainer_final 0.8s forwards';
             document.querySelector('#quotes_container').style.position = 'fixed';
@@ -349,27 +358,22 @@ class App extends React.Component {
             document.querySelector('#auth_comments').style.top = "125px";
 
             if(this.state.suggestions[0] !== undefined){
-                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final2 0.8s forwards';
+                document.querySelector('#quotes_container').style.animation = 'QuotesContainer_final 0.8s forwards';
                 const get_final_random_auth_choice = Math.floor(Math.random()*10); // Rand between 0-9
                 let rand_auth_choice = this.state.suggestions[0][get_final_random_auth_choice];
-
-                console.log(rand_auth_choice);
-                console.log(rand_final_choice);
                 //specific/easily verifiable case
                 if(rand_auth_choice['title'] === rand_final_choice['title']){
                     rand_auth_choice = this.state.suggestions[0][Math.floor(Math.random()*10)]; // select another randomly if they coincide
                 }
-
                 if(rand_auth_choice['description'] === undefined) {
                     rand_auth_choice['description'] = '';
                 }
-
                 if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
                     rand_auth_choice['description'] = rand_auth_choice['description']['value'];
                 } 
                 return(
                     <div style={{animation: "transitionIn 2.5s ease-in-out"}}>
-                        <div id="final_render2" style={{animation: "none"}}>
+                        <div id="final_render_2" style={{animation: "none"}}>
                             <div class="pair-1" style={{animation: "none"}}> 
                                 <h2 id="rand_final_choice_title2">{rand_final_choice['title']}</h2>
                                 <h6 id="rand_final_choice_author2">by {rand_final_choice['author']}</h6>
@@ -422,60 +426,6 @@ class App extends React.Component {
                 </div>
             </div>
         )}
-}
-
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function getDataAuthChoice(url) {
-    if (localStorage.getItem(url)) {
-        const book = JSON.parse(localStorage.getItem(url));
-        let description = book['description'];
-        const author_array = book['authors'][0];
-        const author_key = author_array['author']['key'];
-        const title = book['title'];
-        const cover_id = localStorage.getItem(title);
-        const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-
-        const url2 = `https://openlibrary.org${author_key}.json`;
-
-        const result = JSON.parse(localStorage.getItem(url2));
-        const author = result['personal_name'];
-        author_choice_temp.push({title,author,description,source_img});
-        
-        return console.log("Data fetched from cache.");
-    }
-    return fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem(url, JSON.stringify(data));
-            const book = data;
-            let description = book['description'];
-            const author_array = book['authors'][0];
-            const author_key = author_array['author']['key'];
-            const cover_id = book['covers'][0];
-            const title = book['title'];
-            localStorage.setItem(title, cover_id);
-            const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
-           
-            const url2 = `https://openlibrary.org${author_key}.json`;
-
-            fetch(url2)
-            .then(response => response.json())
-            .then(result => {
-                localStorage.setItem(url2, JSON.stringify(result));
-                const author = result['personal_name'];
-                author_choice_temp.push({title,author,description,source_img});
-            })
-            .catch(err => {
-                console.log(err);
-                return;
-            })
-            
-            console.log('Data fetched from API');
-        }
-    );
 }
 ReactDOM.render(<App />, document.querySelector('#app'));
 

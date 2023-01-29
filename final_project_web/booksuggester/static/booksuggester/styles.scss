@@ -1,36 +1,14 @@
 // Generals:
-
-// Font:
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 $standard-font: 'Segoe UI', Verdana, sans-serif;
 $poppins-font: 'Poppins';
 
-// Colors (Used interchangeably  if necessary):
 $font-color-1: #FFFFFF;
 $font-color-2: #fcf3e5;  
-$font-color-3: #A6CBE2;
-
 $back-color-1: #AD0E39;
-$back-color-2: #4A3163;
-$back-color-3: #4a3828;
-// $back-color-3: #371010;
-// $back-color-3: #A17562;
-$back-color-4: #494848;
-$back-color-5: #091E22;
-$back-color-6: #ffeed2;
-
-// Copyright
-#copyright {
-    margin-right: 3px;
-}
-
-#final {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+$back-color-2: #4a3828;
+$back-color-3: #091E22;
+$back-color-4: #ffeed2;
 
 body {
     background-color: $font-color-2;
@@ -39,26 +17,18 @@ body {
     max-zoom: 125%;
 }
 
-// Disable horizontal sroll (interfers with 'runRight, runLeft animations'
+#copyright {
+    margin-right: 3px;
+}
+// Disable horizontal scroll (interfers with 'runRight, runLeft animations')
 html {
     max-width: 100%;
     overflow-x: hidden;
 }
-
 // Footer and header
 footer, header, #logo_container, #quotes_container{
     animation: transitionIn 1.0s ease-in-out;
 }
-
-#question_container {
-    animation: QuestionReappear 2.7s ease-in-out;
-}
-
-#answer {
-    animation: AnswerReappear 2.7s ease-in-out;
-}
-
-// Footer and header
 header, footer {
     font-size: 14px;
     font-family: $standard-font;
@@ -71,23 +41,20 @@ header, footer {
     justify-content: center;
     align-items: center;
 }
-
 header {
     top: 0;
 }
-
 footer {
     bottom: 0;
-    background-color: $back-color-3;
+    background-color: $back-color-2;
 }
-
 // Quotes
 #quotes_container {
     position: fixed;
     width: 100%;
     bottom: 34px;
-    background-color: $back-color-6;
-    color: $back-color-5;
+    background-color: $back-color-4;
+    color: $back-color-3;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -95,18 +62,16 @@ footer {
     transition: background-color 1.5s ease-in-out;
     font-family: $poppins-font;
 }
-
 #quotes_container.colorTransition {
-    background-color: $back-color-3;
-    color: $back-color-3;
+    background-color: $back-color-2;
+    color: $back-color-2;
 }
-
 // Logo
 #logo_container {
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: $back-color-6;
+    background-color: $back-color-4;
     text-align: center;
     height: 200px; 
     position: relative;
@@ -123,7 +88,6 @@ footer {
     bottom: 155px;
     margin: none;
 }
-
 // Questions and answers
 #answer_container, #question_container {
     display: flex;
@@ -140,11 +104,12 @@ footer {
 #question_container {
     justify-content: center;
     top: 100px;
+    animation: QuestionReappear 2.7s ease-in-out;
 }
 
 #answer, #question {
-    color: $back-color-5;
-    background-color: $back-color-6;
+    color: $back-color-3;
+    background-color: $back-color-4;
     font-size: 13px;
     font-family: $poppins-font;
     font-weight: bold;
@@ -158,8 +123,9 @@ footer {
 #answer {
     height: 45px;
     width: 130px;
-    border: solid $back-color-3;
+    border: solid $back-color-2;
     border-width: 2.6px;
+    animation: AnswerReappear 2.7s ease-in-out;
 }
 
 #answer:hover, #another:hover, #restart:hover {
@@ -170,11 +136,11 @@ footer {
 #question {
     height: 65px;
     width: 220px;
-    border: solid $back-color-3;
+    border: solid $back-color-2;
     border-width: 2.6px;
 }
 
-// Author's comments in response to some answers
+// Author's comments
 #auth_comments {
     color: $font-color-1;
     font-size: 20px;
@@ -190,37 +156,33 @@ footer {
 // Final render_1
 #final_render_1 > * {
     font-family: $poppins-font;
-    color: $back-color-5;
+    color: $back-color-3;
     text-align: center;
     position: relative;
     bottom: 100px;
     animation: transitionIn 2.5s ease-in-out;
 }
-
 #rand_final_choice_img {
     display: block; 
     margin: 0 auto;
     padding-bottom: 40px;
 }
-
 #rand_final_choice_author {
     left: 80px;
 }
-    
 .buttons{
     padding-top: 15px;
     animation: transitionIn 1.3s 2.5s ease-in-out;
     position: relative;
 }
-
 #rand_final_choice_description {
     padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 20px;
 }
 
-// Final render2
-#final_render2 {
+// Final render_2
+#final_render_2 {
     margin-top: 0px;
     padding-top: 0px;
     position: relative;
@@ -230,10 +192,10 @@ footer {
     align-items: center;
     justify-items: center;
     font-family: $poppins-font;
-    color: $back-color-5;
+    color: $back-color-3;
     text-align: center;
+    overflow-x: hidden;
 }
-
 .pair-1, .pair-2 {
     display: grid;
     grid-template-rows: 1fr 1fr;
@@ -242,48 +204,33 @@ footer {
     margin-left: 15px;
     margin-right: 15px;
 }
-
 #auth_suggestion_header {
     padding-top: 20px;
     text-decoration: underline;
 }
-
 .buttons2{
     display: flex;
     justify-content: center;
     padding-bottom: 60px;
 }
 
-#rand_final_choice_author2, #rand_auth_choice_author, #rand_final_choice_description2, #rand_auth_choice_description {
-    margin-top: 0px;
-    padding-top: 0px;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-}
-
 #rand_final_choice_author2, #rand_auth_choice_author {
     font-weight: bolder;
 }
-
 #rand_auth_choice_img, #rand_final_choice_img2 {
     padding-top: 20px;
     display: block; 
     margin: 0 auto;
 }
-
 #rand_final_choice_title2, #rand_auth_choice_title {
     margin-bottom: 4px;
-    margin-top: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
 }
-
 // Final render generals
 #another, #restart {
-    background-color: $back-color-6;
+    background-color: $back-color-4;
     height: 50px; 
     width: 80px;
-    color: $back-color-5;
+    color: $back-color-3;
     font-size: 13px;
     font-weight: bold;
     font-family: $poppins-font;
@@ -304,7 +251,6 @@ hr {
     width: 85px;
     height: 1px;
 }
-
 // Animations:
 // Dissapear/Reappear effects
 @keyframes QuestionReappear {
@@ -336,7 +282,6 @@ hr {
         opacity: 100%;
     }
 }
-
 // Reload page effect
 @keyframes transitionIn {
     from {
@@ -348,7 +293,6 @@ hr {
         transform: rotateX(0);
     }
 }
-
 // 'Run' effects
 @keyframes runRight {
     from {
@@ -367,12 +311,11 @@ hr {
         transform: translateX(-400%);
     }
 }
-
 // 'Colorize' effects
 @keyframes Question-colorize {
     from {
-        background-color: $back-color-6;
-        color: $back-color-5;
+        background-color: $back-color-4;
+        color: $back-color-3;
     }
     to {
         background-color: $back-color-1;
@@ -383,8 +326,8 @@ hr {
 
 @keyframes Answer-colorize {
     from {
-        background-color: $back-color-6;
-        color: $back-color-5;
+        background-color: $back-color-4;
+        color: $back-color-3;
     }
     to {
         background-color: $back-color-1;
@@ -413,24 +356,6 @@ hr {
 
 @keyframes QuotesContainer_final {
     20% {
-        transform: translateY(120px);
-    }
-    40% {
-        transform: translateY(30px);
-    }
-    60% {
-        transform: translateY(120px);
-    }
-    80% {
-        transform: translateY(60px);
-    }
-    100% {
-        transform: translateY(120px);
-    }
-}
-
-@keyframes QuotesContainer_final2 {
-    20% {
         transform: translateY(200px);
     }
     40% {
@@ -446,7 +371,6 @@ hr {
         transform: translateY(200px);
     }
 }
-
 // Media Queries
 @media (orientation: portrait) {
     #quotes_container {
@@ -454,7 +378,6 @@ hr {
         bottom: -100px;
     }
 }
-
 // Phones
 @media (orientation: portrait) and (max-device-width: 414px)
 {
@@ -518,7 +441,6 @@ hr {
         text-align: center;
     }
 }
-
 // Smaller screens 
 @media only screen and (max-device-height: 1000px) {
     #app {

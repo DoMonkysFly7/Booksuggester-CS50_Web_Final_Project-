@@ -1,6 +1,5 @@
 React
 ReactDOM
 Babel
-JSX
 SASS
 SASS-LISTEN
