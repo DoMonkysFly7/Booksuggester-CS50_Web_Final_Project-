@@ -1,3 +1,9 @@
+// var xhr = new XMLHttpRequest();
+// xhr.open("GET", "http://example.com", true);
+// xhr.setRequestHeader("Access-Control-Allow-Origin", "http://example.com");
+// xhr.send();
+
+
 const author_choices = ['works/OL166894W','works/OL102749W','works/OL20600W','works/OL1168083W','works/OL21164750W', 'works/OL1268413W','works/OL498463W', 'works/OL5819456W', 'works/OL103123W',
 'works/OL16457776W'];
 //Order:"Crime and punishment", "Moby Dick", "Gulliver's travels", "1984", "Amusing ourselves to death", "Man's search for meaning"// "The Trial", "The Book Thief", "Fahrenheit 451", "Petersburg Tales"
@@ -129,10 +135,11 @@ class App extends React.Component {
                             let description = answer['description'];
                             const author_array = answer['authors'][0];
                             const author_key = author_array['author']['key'];
-
-                            let cover_id = answer['covers'] ? answer['covers'][0] : ""; 
-
                             const title = answer['title'];
+
+                            // let cover_id = answer['covers'] ? answer['covers'][0] : ""; 
+                            let cover_id = localStorage.getItem(title);
+                            
                             const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg` 
 
                             const url3 = `https://openlibrary.org${author_key}.json`;
@@ -166,8 +173,8 @@ class App extends React.Component {
                                     const author_key = author_array['author']['key'];
     
                                     let cover_id = book['covers'] ? book['covers'][0] : ""; 
-    
                                     const title = book['title'];
+                                    localStorage.setItem(title, cover_id);
                                     const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg` 
                                     
                                     const url3 = `https://openlibrary.org${author_key}.json`;
@@ -223,6 +230,9 @@ class App extends React.Component {
     }
 
     qReset = async () => {
+        if(this.state.questions[this.state.question_number] === undefined){
+            return;
+        }
         document.querySelectorAll('#answer').forEach(a => {
             a.style.animation = 'none';
         });
@@ -356,7 +366,6 @@ class App extends React.Component {
 
                 if(rand_auth_choice['title'] === 'Petersburg tales' || rand_auth_choice['title'] === 'The Book Thief' || rand_auth_choice['title'] === 'Fahrenheit 451'){
                     rand_auth_choice['description'] = rand_auth_choice['description']['value'];
-                    console.log('after: ' + rand_auth_choice['description']);
                 } 
                 return(
                     <div style={{animation: "transitionIn 2.5s ease-in-out"}}>
@@ -425,8 +434,8 @@ function getDataAuthChoice(url) {
         let description = book['description'];
         const author_array = book['authors'][0];
         const author_key = author_array['author']['key'];
-        const cover_id = book['covers'][0];
         const title = book['title'];
+        const cover_id = localStorage.getItem(title);
         const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
 
         const url2 = `https://openlibrary.org${author_key}.json`;
@@ -434,9 +443,8 @@ function getDataAuthChoice(url) {
         const result = JSON.parse(localStorage.getItem(url2));
         const author = result['personal_name'];
         author_choice_temp.push({title,author,description,source_img});
-
-        console.log("Data fetched from cache.");
-        return;
+        
+        return console.log("Data fetched from cache.");
     }
     return fetch(url)
         .then(response => response.json())
@@ -448,6 +456,7 @@ function getDataAuthChoice(url) {
             const author_key = author_array['author']['key'];
             const cover_id = book['covers'][0];
             const title = book['title'];
+            localStorage.setItem(title, cover_id);
             const source_img = `https://covers.openlibrary.org/b/id/${cover_id}-M.jpg`    
            
             const url2 = `https://openlibrary.org${author_key}.json`;
