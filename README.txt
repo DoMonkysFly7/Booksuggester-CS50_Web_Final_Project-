@@ -9,7 +9,7 @@ only a small variety from which the user can choose to look further into.
 
 Description:
 This Project was initially created to be submited as part of 'CS50's Web Development with Python and JavaScript' course
-requirements. Therefore, you will find on my GitHub a 'duplicate' using the Django Framework as well. However, both
+requirements. Therefore, you will find on my GitHub a static 'duplicate' using only HTML, CSS and JavaScript + React.js  as well. However, both
 repositories achieve the same outcome. Still, feel free to check both of them out!
 
 Purpose:
@@ -26,17 +26,18 @@ two pre-written answers are possible. Once all the questions have been answered,
 two books (one of which comes from some of the Author's personal favourites) which should be, more or less, compatible 
 with your tastes and personalities. If you are unsatisfied with the book(s) presented at the end of the questioning process
 you may press the 'Restart' button in order to start answering the same questions again, which would result in a different
-pool of suggestions, providing you chose at least a different answer OR you could press the 'Another' button, which will
-randomly assign another book or set of books from the ones which the website already deems suitable to you. Quite simple 
+pool of suggestions OR you could press the 'Another' button, which will randomly assign another book or set of books from the ones which the website already deems suitable to you. Quite simple 
 really. 
 
 How is built:
-This website is static, it therefore uses: HTML, SASS converted to CSS, JavaScript and React.js. It also uses APIs from
+It uses: HTML, SASS converted to CSS, JavaScript and React.js and the Django framework. It also uses APIs from
 https://openlibrary.org and https://covers.openlibrary.org/ for the information regarding the books. These aforementioned websites, all
 their pages, are 'APIs' themselves, meaning they can be requested by anyone in JSON or any other format, no key is required.
 
 As you may have noticed, this website has no user input and no database, as these are not necessary. I trust that may
 affect my final mark on the final project.
+
+On the backend, it is quite easy to change questions/answers/subjects to fetch from APIs, quotes and author's comments. So it is really flexible!
 
 Main (important) files:
 App.js - This is where all the background logic happens: questions,components,possible answers rendering. The logic of 
